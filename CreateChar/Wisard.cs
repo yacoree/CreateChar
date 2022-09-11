@@ -8,14 +8,39 @@ namespace CreateChar
 {
     internal class Wisard
     {
-        int MinStrength = 10;
-        int MinDexterity = 20;
-        int MinConstitution = 15;
-        int MinIntelligence = 35;
+        static Field strengthCharacteristic = new Field(
+            minimum = 10,
+            maximum = 45,
+            physicalProtection = 0,
+            healthPoint = 10,
+            manaPool = 0,
+            physicalAttack = 30,
+            magicalAttack = 0);
+        static Field dexterityCharacteristic = new Field(
+            minimum = 20,
+            maximum = 70,
+            physicalProtection = 5,
+            healthPoint = 0,
+            manaPool = 0,
+            physicalAttack = 0,
+            magicalAttack = 0);
+        static Field constitutionCharacteristic = new Field(
+            minimum = 15,
+            maximum = 60,
+            physicalProtection = 10,
+            healthPoint = 30,
+            manaPool = 0,
+            physicalAttack = 0,
+            magicalAttack = 0);
+        static Field intelligenceCharacteristic = new Field(
+            minimum = 35,
+            maximum = 250,
+            physicalProtection = 0,
+            healthPoint = 0,
+            manaPool = 20,
+            physicalAttack = 0,
+            magicalAttack = 50);
 
-        int MaxStrength = 45;
-        int MaxDexterity = 70;
-        int MaxConstitution = 60;
-        int MaxIntelligence = 250;
+
     }
 }

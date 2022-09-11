@@ -8,19 +8,38 @@ namespace CreateChar
 {
     internal class Warrior: Unit
     {
-        static int[] strengthUp = new int[] { 5, 2 };
-        static int[] dexterityUp = new int[] { 1, 1 };
-        static int[] constitutionUp = new int[] { 10, 2 };
-        static int[] intelligenceUp = new int[] { 1, 1 };
+        static Field strengthCharacteristic = new Field(
+            minimum = 30,
+            maximum = 250,
+            physicalProtection = 0,
+            healthPoint = 20,
+            manaPool = 0,
+            physicalAttack = 50,
+            magicalAttack = 0);
+        static Field dexterityCharacteristic = new Field(
+            minimum = 15,
+            maximum = 70,
+            physicalProtection = 10,
+            healthPoint = 0,
+            manaPool = 0,
+            physicalAttack = 10,
+            magicalAttack = 0);
+        static Field constitutionCharacteristic = new Field(
+            minimum = 20,
+            maximum = 100,
+            physicalProtection = 20,
+            healthPoint = 100,
+            manaPool = 0,
+            physicalAttack = 0,
+            magicalAttack = 0);
+        static Field intelligenceCharacteristic = new Field(
+            minimum = 10,
+            maximum = 50,
+            physicalProtection = 0,
+            healthPoint = 0,
+            manaPool = 10,
+            physicalAttack = 0,
+            magicalAttack = 10);
 
-        int MinStrength = 30;
-        int MinDexterity = 15;
-        int MinConstitution = 20;
-        int MinIntelligence = 10;
-
-        int MaxStrength = 250;
-        int MaxDexterity = 20;
-        int MaxConstitution = 100;
-        int MaxIntelligence = 50;
     }
 }

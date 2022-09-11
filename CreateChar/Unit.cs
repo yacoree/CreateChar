@@ -1,26 +1,31 @@
 ﻿namespace CreateChar
 {
-    public class Unit
+    abstract class Unit
     {
-        static int[] strengthUp = new int[] { 0, 0 };
-        protected static int[] dexterityUp = new int[] { 0, 0 };
-        protected static int[] constitutionUp = new int[] { 0, 0 };
-        protected static int[] intelligenceUp = new int[] { 0, 0 };
+        static Field strengthCharacteristic;
+        static Field dexterityCharacteristic;
+        static Field constitutionCharacteristic;
+        static Field intelligenceCharacteristic;
 
         int strength;
         int dexterity;
         int constitution;
         int intelligence;
 
-        int physicalProtection;
-        int HP;
-        int MP;
-        int physicalAttack;
-        int magicalAttack;
+        UnitProperty max;
+        UnitProperty current;
 
         public Unit()
         {
 
+        }
+
+        protected Unit(int strength, int dexterity, int constitution, int intelligence)
+        {
+            this.strength = strength;
+            this.dexterity = dexterity;
+            this.constitution = constitution;
+            this.intelligence = intelligence;
         }
     }
 }
