@@ -23,10 +23,28 @@ namespace CreateChar
             MagicalAttack = magicalAttack;
         }
 
+        public UnitProperty() { }
+
         public int PhysicalProtection { get => physicalProtection; set => physicalProtection = value; }
         public int HealthPoint { get => healthPoint; set => healthPoint = value; }
         public int ManaPool { get => manaPool; set => manaPool = value; }
         public int PhysicalAttack { get => physicalAttack; set => physicalAttack = value; }
         public int MagicalAttack { get => magicalAttack; set => magicalAttack = value; }
+
+        public UnitProperty Increase(UnitProperty unitProperty)
+        {
+            UnitProperty returned = new UnitProperty();
+            returned.HealthPoint = this.HealthPoint + unitProperty.HealthPoint;
+            returned.PhysicalProtection = this.PhysicalProtection + unitProperty.PhysicalProtection;
+            returned.ManaPool = this.ManaPool + unitProperty.ManaPool;
+            returned.PhysicalAttack = this.PhysicalAttack + unitProperty.PhysicalAttack;
+            returned.MagicalAttack = this.MagicalAttack + unitProperty.MagicalAttack;
+            return returned;
+        }
+
+        public static Fraction operator +(UnitProperty leftP, UnitProperty rightP)
+        {
+            return leftP.Increase(rightP);
+        }
     }
 }

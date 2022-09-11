@@ -7,13 +7,13 @@
         static Field constitutionCharacteristic;
         static Field intelligenceCharacteristic;
 
-        int strength;
-        int dexterity;
-        int constitution;
-        int intelligence;
+        protected int strength;
+        protected int dexterity;
+        protected int constitution;
+        protected int intelligence;
 
-        UnitProperty max;
-        UnitProperty current;
+        protected UnitProperty max;
+        protected UnitProperty current;
 
         public Unit()
         {

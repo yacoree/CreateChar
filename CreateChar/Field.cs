@@ -37,6 +37,15 @@ namespace CreateChar
         public int PhysicalAttack { get => physicalAttack; }
         public int MagicalAttack { get => magicalAttack; }
 
-
+        public UnitProperty AddPoint(int points)
+        {
+            UnitProperty returned = new UnitProperty();
+            returned.HealthPoint = this.HealthPoint * points;
+            returned.PhysicalProtection = this.PhysicalProtection * points;
+            returned.ManaPool = this.ManaPool * points;
+            returned.PhysicalAttack = this.PhysicalAttack * points;
+            returned.MagicalAttack = this.MagicalAttack * points;
+            return returned;
+        }
     }
 }
