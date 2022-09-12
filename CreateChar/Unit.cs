@@ -2,11 +2,6 @@
 {
     abstract class Unit
     {
-        static Field strengthCharacteristic;
-        static Field dexterityCharacteristic;
-        static Field constitutionCharacteristic;
-        static Field intelligenceCharacteristic;
-
         protected int strength;
         protected int dexterity;
         protected int constitution;

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CreateChar
 {
-    internal class UnitProperty
+    public class UnitProperty
     {
         int physicalProtection;
         int healthPoint;
@@ -42,7 +42,7 @@ namespace CreateChar
             return returned;
         }
 
-        public static Fraction operator +(UnitProperty leftP, UnitProperty rightP)
+        public static UnitProperty operator +(UnitProperty leftP, UnitProperty rightP)
         {
             return leftP.Increase(rightP);
         }

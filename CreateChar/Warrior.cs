@@ -8,38 +8,27 @@ namespace CreateChar
 {
     internal class Warrior: Unit
     {
-        static Field strengthCharacteristic = new Field(
-            minimum = 30,
-            maximum = 250,
-            physicalProtection = 0,
-            healthPoint = 20,
-            manaPool = 0,
-            physicalAttack = 50,
-            magicalAttack = 0);
-        static Field dexterityCharacteristic = new Field(
-            minimum = 15,
-            maximum = 70,
-            physicalProtection = 10,
-            healthPoint = 0,
-            manaPool = 0,
-            physicalAttack = 10,
-            magicalAttack = 0);
-        static Field constitutionCharacteristic = new Field(
-            minimum = 20,
-            maximum = 100,
-            physicalProtection = 20,
-            healthPoint = 100,
-            manaPool = 0,
-            physicalAttack = 0,
-            magicalAttack = 0);
-        static Field intelligenceCharacteristic = new Field(
+        /*
+         * Порядок записи 
             minimum = 10,
-            maximum = 50,
+            maximum = 45,
             physicalProtection = 0,
-            healthPoint = 0,
-            manaPool = 10,
-            physicalAttack = 0,
-            magicalAttack = 10);
+            healthPoint = 10,
+            manaPool = 0,
+            physicalAttack = 30,
+            magicalAttack = 0
+        */
+
+        static Field strengthCharacteristic = new Field(30, 250, 0, 20, 0, 50, 0);
+        static Field dexterityCharacteristic = new Field(15, 70, 10, 0, 0, 10, 0);
+        static Field constitutionCharacteristic = new Field(20, 100, 20, 100, 0, 0, 0);
+        static Field intelligenceCharacteristic = new Field(10, 50, 0, 0, 10, 0, 10);
+
+        public Warrior(int strength, int dexterity, int constitution, int intelligence) : base(strength, dexterity, constitution, intelligence)
+        {
+            max = strengthCharacteristic.AddPoint(strength) + dexterityCharacteristic.AddPoint(dexterity)
+                + constitutionCharacteristic.AddPoint(constitution) + intelligenceCharacteristic.AddPoint(intelligence);
+        }
 
     }
 }

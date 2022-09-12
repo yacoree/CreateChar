@@ -6,41 +6,29 @@ using System.Threading.Tasks;
 
 namespace CreateChar
 {
-    internal class Wisard
+    internal class Wisard : Unit
     {
-        static Field strengthCharacteristic = new Field(
+        /*
+         * Порядок записи 
             minimum = 10,
             maximum = 45,
             physicalProtection = 0,
             healthPoint = 10,
             manaPool = 0,
             physicalAttack = 30,
-            magicalAttack = 0);
-        static Field dexterityCharacteristic = new Field(
-            minimum = 20,
-            maximum = 70,
-            physicalProtection = 5,
-            healthPoint = 0,
-            manaPool = 0,
-            physicalAttack = 0,
-            magicalAttack = 0);
-        static Field constitutionCharacteristic = new Field(
-            minimum = 15,
-            maximum = 60,
-            physicalProtection = 10,
-            healthPoint = 30,
-            manaPool = 0,
-            physicalAttack = 0,
-            magicalAttack = 0);
-        static Field intelligenceCharacteristic = new Field(
-            minimum = 35,
-            maximum = 250,
-            physicalProtection = 0,
-            healthPoint = 0,
-            manaPool = 20,
-            physicalAttack = 0,
-            magicalAttack = 50);
+            magicalAttack = 0
+        */
 
+        static Field strengthCharacteristic = new Field(10, 45, 0, 10, 0, 30, 0);
+        static Field dexterityCharacteristic = new Field(20, 70, 5, 0, 0, 0, 0);
+        static Field constitutionCharacteristic = new Field(15, 60, 10, 30, 0, 0, 0);
+        static Field intelligenceCharacteristic = new Field(35, 250, 0, 0, 20, 0, 50);
+
+        public Wisard(int strength, int dexterity, int constitution, int intelligence) : base(strength, dexterity, constitution, intelligence)
+        {
+            max = strengthCharacteristic.AddPoint(strength) + dexterityCharacteristic.AddPoint(dexterity)
+                + constitutionCharacteristic.AddPoint(constitution) + intelligenceCharacteristic.AddPoint(intelligence);
+        }
 
     }
 }

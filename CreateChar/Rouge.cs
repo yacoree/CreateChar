@@ -8,43 +8,27 @@ namespace CreateChar
 {
     internal class Rogue : Unit
     {
-        static Field strengthCharacteristic = new Field(
-            minimum = 15, 
-            maximum = 55,
+        /*
+         * Порядок записи 
+            minimum = 10,
+            maximum = 45,
             physicalProtection = 0,
             healthPoint = 10,
             manaPool = 0,
-            physicalAttack = 20,
-            magicalAttack = 0);
-        static Field dexterityCharacteristic = new Field(
-            minimum = 30,
-            maximum = 260,
-            physicalProtection = 15,
-            healthPoint = 0,
-            manaPool = 0,
-            physicalAttack = 40,
-            magicalAttack = 0);
-        static Field constitutionCharacteristic = new Field(
-            minimum = 20,
-            maximum = 80,
-            physicalProtection = 0,
-            healthPoint = 60,
-            manaPool = 0,
-            physicalAttack = 0,
-            magicalAttack = 0);
-        static Field intelligenceCharacteristic = new Field(
-            minimum = 15,
-            maximum = 70,
-            physicalProtection = 0,
-            healthPoint = 0,
-            manaPool = 15,
-            physicalAttack = 0,
-            magicalAttack = 20);
+            physicalAttack = 30,
+            magicalAttack = 0
+        */
+
+        static Field strengthCharacteristic = new Field(15, 55, 0, 10, 0, 20, 0);
+        static Field dexterityCharacteristic = new Field(30, 260, 15, 0, 0, 40, 0);
+        static Field constitutionCharacteristic = new Field(20, 80, 0, 60, 0, 0, 0);
+        static Field intelligenceCharacteristic = new Field(15, 70, 0, 0, 15, 0, 20);
 
 
-        public Rogue()
+        public Rogue(int strength, int dexterity, int constitution, int intelligence) : base(strength, dexterity, constitution, intelligence)
         {
-            
+            max = strengthCharacteristic.AddPoint(strength) + dexterityCharacteristic.AddPoint(dexterity) 
+                + constitutionCharacteristic.AddPoint(constitution) + intelligenceCharacteristic.AddPoint(intelligence);
         }
     }
 }
