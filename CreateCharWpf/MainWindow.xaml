@@ -22,16 +22,20 @@
             <Grid.RowDefinitions>
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
-
             <StackPanel Height="50" Width="100" Margin="20" HorizontalAlignment="Left" VerticalAlignment="Top">
                 <RadioButton Content="Rogue" IsChecked = "true"/>
                 <RadioButton Content="Warrior"/>
                 <RadioButton Content="Wizard"/>
             </StackPanel>
-            <TextBlock TextWrapping="Wrap" Text="Str" Width="50" Margin="20,75,410,105"/>
-            <TextBox TextWrapping="Wrap" Text="TextBox" Width="70" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="268,76,0,0" />
-            <Slider x:Name="StrSlider" Width="120" TickPlacement="BottomRight" Maximum="70" Minimum="30" RenderTransformOrigin="0.517,-0.639" Margin="70,70,290,107"/>
+            <GroupBox Header="Str" Grid.Row="1">
+                <Slider Maximum="70" Minimum="29" TickPlacement="BottomRight" VerticalAlignment="Top" Margin="5,0,0,0" HorizontalAlignment="Left" Width="120"/>
+
+            </GroupBox>
+
 
 
 
