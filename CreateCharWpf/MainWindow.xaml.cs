@@ -80,17 +80,17 @@ namespace CreateCharWpf
                     SliderDexterity.Minimum = Warrior.dexterityCharacteristic.Minimum;
                     break;
                 case "Wizard":
-                    SliderStrength.Maximum = Warrior.strengthCharacteristic.Maximum;
-                    SliderStrength.Minimum = Warrior.strengthCharacteristic.Minimum;
+                    SliderStrength.Maximum = Wizard.strengthCharacteristic.Maximum;
+                    SliderStrength.Minimum = Wizard.strengthCharacteristic.Minimum;
 
-                    SliderIntellingence.Maximum = Warrior.intelligenceCharacteristic.Maximum;
-                    SliderIntellingence.Minimum = Warrior.intelligenceCharacteristic.Minimum;
+                    SliderIntellingence.Maximum = Wizard.intelligenceCharacteristic.Maximum;
+                    SliderIntellingence.Minimum = Wizard.intelligenceCharacteristic.Minimum;
 
-                    SliderConstitution.Maximum = Warrior.constitutionCharacteristic.Maximum;
-                    SliderConstitution.Minimum = Warrior.constitutionCharacteristic.Minimum;
+                    SliderConstitution.Maximum = Wizard.constitutionCharacteristic.Maximum;
+                    SliderConstitution.Minimum = Wizard.constitutionCharacteristic.Minimum;
 
-                    SliderDexterity.Maximum = Warrior.dexterityCharacteristic.Maximum;
-                    SliderDexterity.Minimum = Warrior.dexterityCharacteristic.Minimum;
+                    SliderDexterity.Maximum = Wizard.dexterityCharacteristic.Maximum;
+                    SliderDexterity.Minimum = Wizard.dexterityCharacteristic.Minimum;
                     break;
             }
         }
