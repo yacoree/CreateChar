@@ -1,6 +1,6 @@
 ﻿namespace CreateChar
 {
-    abstract class Unit
+    public abstract class Unit
     {
         protected int strength;
         protected int dexterity;
@@ -9,12 +9,6 @@
 
         protected UnitProperty max;
         protected UnitProperty current;
-
-        public Unit()
-        {
-
-        }
-
         protected Unit(int strength, int dexterity, int constitution, int intelligence)
         {
             this.strength = strength;

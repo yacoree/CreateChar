@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CreateCharWpf"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="500">
+        Title="MainWindow" Height="500" Width="500">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="10"></RowDefinition>
@@ -27,14 +27,23 @@
                 <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
             <StackPanel Height="50" Width="100" Margin="20" HorizontalAlignment="Left" VerticalAlignment="Top">
-                <RadioButton Content="Rogue" IsChecked = "true"/>
-                <RadioButton Content="Warrior"/>
-                <RadioButton Content="Wizard"/>
+                <RadioButton Content="Rogue" IsChecked="True" Click="RadioButton_Click"/>
+                <RadioButton Content="Warrior" Click="RadioButton_Click"/>
+                <RadioButton Content="Wizard"  Click="RadioButton_Click"/>
             </StackPanel>
-            <GroupBox Header="Str" Grid.Row="1">
-                <Slider Maximum="70" Minimum="29" TickPlacement="BottomRight" VerticalAlignment="Top" Margin="5,0,0,0" HorizontalAlignment="Left" Width="120"/>
-
-            </GroupBox>
+            <TextBlock HorizontalAlignment="Left" Grid.Row="1" TextWrapping="Wrap" Text="Strength" VerticalAlignment="Top" Margin="27,33,0,0"/>
+            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Dexterity" VerticalAlignment="Top" Margin="26,33,0,0" RenderTransformOrigin="0.474,-3.343" Grid.Row="2"/>
+            <TextBlock HorizontalAlignment="Left" Grid.Row="3" TextWrapping="Wrap" Text="Intellingence" VerticalAlignment="Center" Margin="16,0,0,0" RenderTransformOrigin="1.202,3.028"/>
+            <TextBlock  HorizontalAlignment="Left" Grid.Row="4" TextWrapping="Wrap" Text="Constitution" VerticalAlignment="Top" Margin="19,34,0,0" Width="65"/>
+            <Button Content="Save" HorizontalAlignment="Left" Margin="427,63,0,0" Grid.Row="4" VerticalAlignment="Top" Click="Button_Click"/>
+            <Slider x:Name="SliderStrength" HorizontalAlignment="Left" Margin="120,0,0,0" VerticalAlignment="Center" Width="120" Grid.Row="1" ValueChanged="SliderStrength_ValueChanged"/>
+            <Slider x:Name="SliderDexterity" HorizontalAlignment="Left" Margin="120,0,0,0" Grid.Row="2" VerticalAlignment="Center" Width="120" ValueChanged="SliderStrength_ValueChanged"/>
+            <Slider x:Name="SliderIntellingence" HorizontalAlignment="Left" Margin="120,0,0,0" Grid.Row="3" VerticalAlignment="Center" Width="120" ValueChanged="SliderStrength_ValueChanged"/>
+            <Slider x:Name="SliderConstitution" HorizontalAlignment="Left" Margin="120,0,0,0" Grid.Row="4" VerticalAlignment="Center" Width="120" ValueChanged="SliderStrength_ValueChanged"/>
+            <TextBlock x:Name="TextStrength" HorizontalAlignment="Left" Margin="286,0,0,0" Grid.Row="1" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Center"/>
+            <TextBlock x:Name="TextDexterity" HorizontalAlignment="Left" Margin="286,41,0,0" Grid.Row="2" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+            <TextBlock x:Name="TextIntellingence" HorizontalAlignment="Left" Margin="286,31,0,0" Grid.Row="3" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+            <TextBlock x:Name="TextConstitution" HorizontalAlignment="Left" Margin="286,0,0,0" Grid.Row="4" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Center"/>
 
 
 

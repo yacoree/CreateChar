@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CreateChar
 {
-    internal class Wizard : Unit
+    public class Wizard : Unit
     {
         /*
          * Порядок записи 
@@ -19,10 +19,10 @@ namespace CreateChar
             magicalAttack = 0
         */
 
-        static Field strengthCharacteristic = new Field(10, 45, 0, 10, 0, 30, 0);
-        static Field dexterityCharacteristic = new Field(20, 70, 5, 0, 0, 0, 0);
-        static Field constitutionCharacteristic = new Field(15, 60, 10, 30, 0, 0, 0);
-        static Field intelligenceCharacteristic = new Field(35, 250, 0, 0, 20, 0, 50);
+        public static Field strengthCharacteristic = new Field(10, 45, 0, 10, 0, 30, 0);
+        public static Field dexterityCharacteristic = new Field(20, 70, 5, 0, 0, 0, 0);
+        public static Field constitutionCharacteristic = new Field(15, 60, 10, 30, 0, 0, 0);
+        public static Field intelligenceCharacteristic = new Field(35, 250, 0, 0, 20, 0, 50);
 
         public Wizard(int strength, int dexterity, int constitution, int intelligence) : base(strength, dexterity, constitution, intelligence)
         {
