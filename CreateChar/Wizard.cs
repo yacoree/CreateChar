@@ -19,15 +19,29 @@ namespace CreateChar
             magicalAttack = 0
         */
 
-        public static Field strengthCharacteristic = new Field(10, 45, 0, 10, 0, 30, 0);
-        public static Field dexterityCharacteristic = new Field(20, 70, 5, 0, 0, 0, 0);
-        public static Field constitutionCharacteristic = new Field(15, 60, 10, 30, 0, 0, 0);
-        public static Field intelligenceCharacteristic = new Field(35, 250, 0, 0, 20, 0, 50);
+        static Field strengthCharacteristic = new Field(10, 45, 0, 10, 0, 30, 0);
+        static Field dexterityCharacteristic = new Field(20, 70, 5, 0, 0, 0, 0);
+        static Field constitutionCharacteristic = new Field(15, 60, 10, 30, 0, 0, 0);
+        static Field intelligenceCharacteristic = new Field(35, 250, 0, 0, 20, 0, 50);
 
-        public Wizard(int strength, int dexterity, int constitution, int intelligence) : base(strength, dexterity, constitution, intelligence)
+        public static Field StrengthCharacteristic { get => strengthCharacteristic; }
+        public static Field DexterityCharacteristic { get => dexterityCharacteristic; }
+        public static Field ConstitutionCharacteristic { get => constitutionCharacteristic; }
+        public static Field IntelligenceCharacteristic { get => intelligenceCharacteristic; }
+
+        public Wizard(string name, int strength, int dexterity, int constitution, int intelligence) :
+            base(name, strength, dexterity, constitution, intelligence)
         {
-            max = strengthCharacteristic.AddPoint(strength) + dexterityCharacteristic.AddPoint(dexterity)
-                + constitutionCharacteristic.AddPoint(constitution) + intelligenceCharacteristic.AddPoint(intelligence);
+            max = TakeUnitStats(strength, dexterity, constitution, intelligence);
+        }
+
+        public static UnitProperty TakeUnitStats(int strength, int dexterity, int constitution, int intelligence)
+        {
+            var res = strengthCharacteristic.AddPoint(strength) 
+                + dexterityCharacteristic.AddPoint(dexterity)
+                + constitutionCharacteristic.AddPoint(constitution) 
+                + intelligenceCharacteristic.AddPoint(intelligence);
+            return res;
         }
 
     }

@@ -13,6 +13,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using CreateChar;
+using MongoDB;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace CreateCharWpf
 {
@@ -21,86 +24,153 @@ namespace CreateCharWpf
     /// </summary>
     public partial class MainWindow : Window
     {
+        string currentClass = "Rogue";
+        Field StrengthCharacteristic;
+        Field DexterityCharacteristic;
+        Field ConstitutionCharacteristic;
+        Field IntelligenceCharacteristic;
+
         public MainWindow()
         {
             InitializeComponent();
-            SliderStrength.Maximum = Rogue.strengthCharacteristic.Maximum;
-            SliderStrength.Minimum = Rogue.strengthCharacteristic.Minimum;
+            SliderStrength.Maximum = Rogue.StrengthCharacteristic.Maximum;
+            SliderStrength.Minimum = Rogue.StrengthCharacteristic.Minimum;
 
-            SliderIntellingence.Maximum = Rogue.intelligenceCharacteristic.Maximum;
-            SliderIntellingence.Minimum = Rogue.intelligenceCharacteristic.Minimum;
+            SliderIntellingence.Maximum = Rogue.IntelligenceCharacteristic.Maximum;
+            SliderIntellingence.Minimum = Rogue.IntelligenceCharacteristic.Minimum;
 
-            SliderConstitution.Maximum = Rogue.constitutionCharacteristic.Maximum;
-            SliderConstitution.Minimum = Rogue.constitutionCharacteristic.Minimum;
+            SliderConstitution.Maximum = Rogue.ConstitutionCharacteristic.Maximum;
+            SliderConstitution.Minimum = Rogue.ConstitutionCharacteristic.Minimum;
 
-            SliderDexterity.Maximum = Rogue.dexterityCharacteristic.Maximum;
-            SliderDexterity.Minimum = Rogue.dexterityCharacteristic.Minimum;
+            SliderDexterity.Maximum = Rogue.DexterityCharacteristic.Maximum;
+            SliderDexterity.Minimum = Rogue.DexterityCharacteristic.Minimum;
 
             TextStrength.Text = SliderStrength.Value + "";
             TextIntellingence.Text = SliderIntellingence.Value + "";
             TextConstitution.Text = SliderConstitution.Value + "";
             TextDexterity.Text = SliderDexterity.Value + "";
-        }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            
+            ShowFinalStats();
         }
 
 
         private void RadioButton_Click(object sender, RoutedEventArgs e)
         {
-            string currentClass = (sender as RadioButton).Content + "";
+            currentClass  = (sender as RadioButton).Content + "";
             switch (currentClass)
             {
                 case "Rogue":
-                    SliderStrength.Maximum = Rogue.strengthCharacteristic.Maximum;
-                    SliderStrength.Minimum = Rogue.strengthCharacteristic.Minimum;
-
-                    SliderIntellingence.Maximum = Rogue.intelligenceCharacteristic.Maximum;
-                    SliderIntellingence.Minimum = Rogue.intelligenceCharacteristic.Minimum;
-
-                    SliderConstitution.Maximum = Rogue.constitutionCharacteristic.Maximum;
-                    SliderConstitution.Minimum = Rogue.constitutionCharacteristic.Minimum;
-
-                    SliderDexterity.Maximum = Rogue.dexterityCharacteristic.Maximum;
-                    SliderDexterity.Minimum = Rogue.dexterityCharacteristic.Minimum;
+                    StrengthCharacteristic = Rogue.StrengthCharacteristic;
+                    IntelligenceCharacteristic = Rogue.IntelligenceCharacteristic;
+                    ConstitutionCharacteristic = Rogue.ConstitutionCharacteristic;
+                    DexterityCharacteristic = Rogue.DexterityCharacteristic;
                     break;
                 case "Warrior":
-                    SliderStrength.Maximum = Warrior.strengthCharacteristic.Maximum;
-                    SliderStrength.Minimum = Warrior.strengthCharacteristic.Minimum;
-
-                    SliderIntellingence.Maximum = Warrior.intelligenceCharacteristic.Maximum;
-                    SliderIntellingence.Minimum = Warrior.intelligenceCharacteristic.Minimum;
-
-                    SliderConstitution.Maximum = Warrior.constitutionCharacteristic.Maximum;
-                    SliderConstitution.Minimum = Warrior.constitutionCharacteristic.Minimum;
-
-                    SliderDexterity.Maximum = Warrior.dexterityCharacteristic.Maximum;
-                    SliderDexterity.Minimum = Warrior.dexterityCharacteristic.Minimum;
+                    StrengthCharacteristic = Warrior.StrengthCharacteristic;
+                    IntelligenceCharacteristic = Warrior.IntelligenceCharacteristic;
+                    ConstitutionCharacteristic = Warrior.ConstitutionCharacteristic;
+                    DexterityCharacteristic = Warrior.DexterityCharacteristic;
                     break;
                 case "Wizard":
-                    SliderStrength.Maximum = Wizard.strengthCharacteristic.Maximum;
-                    SliderStrength.Minimum = Wizard.strengthCharacteristic.Minimum;
-
-                    SliderIntellingence.Maximum = Wizard.intelligenceCharacteristic.Maximum;
-                    SliderIntellingence.Minimum = Wizard.intelligenceCharacteristic.Minimum;
-
-                    SliderConstitution.Maximum = Wizard.constitutionCharacteristic.Maximum;
-                    SliderConstitution.Minimum = Wizard.constitutionCharacteristic.Minimum;
-
-                    SliderDexterity.Maximum = Wizard.dexterityCharacteristic.Maximum;
-                    SliderDexterity.Minimum = Wizard.dexterityCharacteristic.Minimum;
+                    StrengthCharacteristic = Wizard.StrengthCharacteristic;
+                    IntelligenceCharacteristic = Wizard.IntelligenceCharacteristic;
+                    ConstitutionCharacteristic = Wizard.ConstitutionCharacteristic;
+                    DexterityCharacteristic = Wizard.DexterityCharacteristic;
                     break;
             }
+            SliderStrength.Maximum = StrengthCharacteristic.Maximum;
+            SliderStrength.Minimum = StrengthCharacteristic.Minimum;
+
+            SliderIntellingence.Maximum = IntelligenceCharacteristic.Maximum;
+            SliderIntellingence.Minimum = IntelligenceCharacteristic.Minimum;
+
+            SliderConstitution.Maximum = ConstitutionCharacteristic.Maximum;
+            SliderConstitution.Minimum = ConstitutionCharacteristic.Minimum;
+
+            SliderDexterity.Maximum = DexterityCharacteristic.Maximum;
+            SliderDexterity.Minimum = DexterityCharacteristic.Minimum;
         }
 
         private void SliderStrength_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             TextStrength.Text = (int) SliderStrength.Value + "";
-            TextIntellingence.Text = (int)SliderIntellingence.Value + "";
-            TextConstitution.Text = (int)SliderConstitution.Value + "";
-            TextDexterity.Text = (int)SliderDexterity.Value + "";
+            TextIntellingence.Text = (int) SliderIntellingence.Value + "";
+            TextConstitution.Text = (int) SliderConstitution.Value + "";
+            TextDexterity.Text = (int) SliderDexterity.Value + "";
+            ShowFinalStats();
+        }
+
+        private void Save_Click(object sender, RoutedEventArgs e)
+        {
+            Unit newUnit;
+            if (InsertName.Text == "")
+            {
+                switch (currentClass)
+                {
+                    case "Rogue":
+                        newUnit = new Rogue(InsertName.Text, 
+                            (int) SliderStrength.Value, 
+                            (int) SliderDexterity.Value, 
+                            (int) SliderConstitution.Value, 
+                            (int) SliderIntellingence.Value);
+                        break;
+                    case "Warrior":
+                        newUnit = new Warrior(InsertName.Text,
+                            (int)SliderStrength.Value,
+                            (int)SliderDexterity.Value,
+                            (int)SliderConstitution.Value,
+                            (int)SliderIntellingence.Value);
+                        break;
+                    case "Wizard":
+                        newUnit = new Wizard(InsertName.Text,
+                            (int)SliderStrength.Value,
+                            (int)SliderDexterity.Value,
+                            (int)SliderConstitution.Value,
+                            (int)SliderIntellingence.Value);
+                        break;
+                    default:
+                        newUnit = new Rogue(InsertName.Text,
+                            (int)SliderStrength.Value,
+                            (int)SliderDexterity.Value,
+                            (int)SliderConstitution.Value,
+                            (int)SliderIntellingence.Value);
+                        break;
+                }
+                MessageBox.Show(newUnit.Max.ToString());
+
+                
+            }
+            
+        }
+
+        private void ShowFinalStats()
+        {
+            UnitProperty res = new UnitProperty(); ;
+            switch (currentClass)
+            {
+                case "Rogue":
+                    res = Rogue.TakeUnitStats(
+                            (int)SliderStrength.Value,
+                            (int)SliderDexterity.Value,
+                            (int)SliderConstitution.Value,
+                            (int)SliderIntellingence.Value);
+                    break;
+                case "Warrior":
+                    res = Warrior.TakeUnitStats(
+                            (int)SliderStrength.Value,
+                            (int)SliderDexterity.Value,
+                            (int)SliderConstitution.Value,
+                            (int)SliderIntellingence.Value);
+                    break;
+                case "Wizard":
+                    res = Wizard.TakeUnitStats(
+                            (int)SliderStrength.Value,
+                            (int)SliderDexterity.Value,
+                            (int)SliderConstitution.Value,
+                            (int)SliderIntellingence.Value);
+                    break;
+            }
+            FinalStatsText.Text = res.ToString();
         }
     }
 }

@@ -46,5 +46,15 @@ namespace CreateChar
         {
             return leftP.Increase(rightP);
         }
+
+        public override string ToString()
+        {
+            var res = $"Health point - {healthPoint}\n" +
+                $"Mana pool - {manaPool}\n" +
+                $"Physical protection - {PhysicalProtection}\n" +
+                $"Physical attack - {PhysicalAttack}\n" +
+                $"Magical attack - {magicalAttack}";
+            return res;
+        }
     }
 }
