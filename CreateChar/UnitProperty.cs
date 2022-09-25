@@ -53,7 +53,7 @@ namespace CreateChar
                 $"Mana pool - {manaPool}\n" +
                 $"Physical protection - {PhysicalProtection}\n" +
                 $"Physical attack - {PhysicalAttack}\n" +
-                $"Magical attack - {magicalAttack}";
+                $"Magical attack - {magicalAttack}\n";
             return res;
         }
     }

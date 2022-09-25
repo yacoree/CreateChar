@@ -32,7 +32,7 @@ namespace CreateChar
         public Warrior(string name, int strength, int dexterity, int constitution, int intelligence) : 
             base(name, strength, dexterity, constitution, intelligence)
         {
-            max = TakeUnitStats(strength, dexterity, constitution, intelligence);
+            Max = TakeUnitStats(strength, dexterity, constitution, intelligence);
         }
 
         public static UnitProperty TakeUnitStats(int strength, int dexterity, int constitution, int intelligence)

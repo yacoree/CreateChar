@@ -13,9 +13,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using CreateChar;
+using MongoDB.Driver;
 using MongoDB;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
+using System.Collections;
+using System.Xml.Linq;
 
 namespace CreateCharWpf
 {
@@ -29,21 +30,12 @@ namespace CreateCharWpf
         Field DexterityCharacteristic;
         Field ConstitutionCharacteristic;
         Field IntelligenceCharacteristic;
+        List<Unit> users;
 
         public MainWindow()
         {
             InitializeComponent();
-            SliderStrength.Maximum = Rogue.StrengthCharacteristic.Maximum;
-            SliderStrength.Minimum = Rogue.StrengthCharacteristic.Minimum;
-
-            SliderIntellingence.Maximum = Rogue.IntelligenceCharacteristic.Maximum;
-            SliderIntellingence.Minimum = Rogue.IntelligenceCharacteristic.Minimum;
-
-            SliderConstitution.Maximum = Rogue.ConstitutionCharacteristic.Maximum;
-            SliderConstitution.Minimum = Rogue.ConstitutionCharacteristic.Minimum;
-
-            SliderDexterity.Maximum = Rogue.DexterityCharacteristic.Maximum;
-            SliderDexterity.Minimum = Rogue.DexterityCharacteristic.Minimum;
+            ChangeClass(currentClass);
 
             TextStrength.Text = SliderStrength.Value + "";
             TextIntellingence.Text = SliderIntellingence.Value + "";
@@ -51,12 +43,18 @@ namespace CreateCharWpf
             TextDexterity.Text = SliderDexterity.Value + "";
 
             ShowFinalStats();
+            ComboBoxUpdate();
         }
 
 
         private void RadioButton_Click(object sender, RoutedEventArgs e)
         {
             currentClass  = (sender as RadioButton).Content + "";
+            ChangeClass(currentClass);
+        }
+
+        private void ChangeClass(string currentClass)
+        {
             switch (currentClass)
             {
                 case "Rogue":
@@ -89,6 +87,8 @@ namespace CreateCharWpf
 
             SliderDexterity.Maximum = DexterityCharacteristic.Maximum;
             SliderDexterity.Minimum = DexterityCharacteristic.Minimum;
+
+
         }
 
         private void SliderStrength_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -103,7 +103,7 @@ namespace CreateCharWpf
         private void Save_Click(object sender, RoutedEventArgs e)
         {
             Unit newUnit;
-            if (InsertName.Text == "")
+            if (InsertName.Text != "")
             {
                 switch (currentClass)
                 {
@@ -137,15 +137,18 @@ namespace CreateCharWpf
                         break;
                 }
                 MessageBox.Show(newUnit.Max.ToString());
-
-                
+                //MessageBox.Show(newUnit.GetType().ToString());
+                MongoExample.AddToDB(newUnit);
+                ComboBoxUpdate();
+                //ChangeUnit.Items.Add(newUnit);
             }
             
         }
 
         private void ShowFinalStats()
         {
-            UnitProperty res = new UnitProperty(); ;
+            UnitProperty res = new UnitProperty();
+
             switch (currentClass)
             {
                 case "Rogue":
@@ -171,6 +174,58 @@ namespace CreateCharWpf
                     break;
             }
             FinalStatsText.Text = res.ToString();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            string DBName = "UnitsBase";
+            string collectionName = "Units";
+            var client = new MongoClient();
+            var database = client.GetDatabase(DBName);
+            var collection = database.GetCollection<Unit>(collectionName);
+            var query = collection.AsQueryable<Unit>().OfType<Rogue>();
+            MessageBox.Show(query.ToString());
+            //var one = collection.Find(x => x.Name == name).FirstOrDefault();
+            ComboBoxUpdate();
+            //var lu = MongoExample.FindAll();
+            //string[] unitsName = new string[lu.Count];
+            //string res = "";
+            //for (int i = 0; i < lu.Count; i++)
+            //{
+            //    res += lu[i].GetType() + " " + lu[i].ToString();
+            //}
+            //MessageBox.Show(res);
+            //Unit f = new Rogue("a", 35, 35, 35, 35);
+            //MessageBox.Show(f.GetType() + "");
+            /*Unit u = MongoExample.Find("Oleg");
+            MessageBox.Show(u.Max.ToString());*/
+        }
+
+        private void ComboBoxUpdate()
+        {
+            users = MongoExample.FindAll();
+            ChangeUnit.Items.Clear();
+            foreach (var i in users)
+            {
+                ChangeUnit.Items.Add(i.Name);
+            }
+        }
+
+        private void ChangeUnit_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            MessageBox.Show(ChangeUnit.SelectedValue.ToString());
+            foreach (var i in users)
+            {
+                if (i.Name == ChangeUnit.SelectedValue + "")
+                {
+                    ChangeClass(i.GetType().Name);
+                    //(i.GetType().Name).IsChecked
+                    SliderStrength.Value = i.Strength;
+                    SliderIntellingence.Value = i.Intelligence;
+                    SliderDexterity.Value = i.Dexterity;
+                    SliderConstitution.Value = i.Constitution;
+                }
+            }
         }
     }
 }
