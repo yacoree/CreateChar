@@ -185,20 +185,7 @@ namespace CreateCharWpf
             var collection = database.GetCollection<Unit>(collectionName);
             var query = collection.AsQueryable<Unit>().OfType<Rogue>();
             MessageBox.Show(query.ToString());
-            //var one = collection.Find(x => x.Name == name).FirstOrDefault();
             ComboBoxUpdate();
-            //var lu = MongoExample.FindAll();
-            //string[] unitsName = new string[lu.Count];
-            //string res = "";
-            //for (int i = 0; i < lu.Count; i++)
-            //{
-            //    res += lu[i].GetType() + " " + lu[i].ToString();
-            //}
-            //MessageBox.Show(res);
-            //Unit f = new Rogue("a", 35, 35, 35, 35);
-            //MessageBox.Show(f.GetType() + "");
-            /*Unit u = MongoExample.Find("Oleg");
-            MessageBox.Show(u.Max.ToString());*/
         }
 
         private void ComboBoxUpdate()
@@ -213,12 +200,25 @@ namespace CreateCharWpf
 
         private void ChangeUnit_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            MessageBox.Show(ChangeUnit.SelectedValue.ToString());
             foreach (var i in users)
             {
                 if (i.Name == ChangeUnit.SelectedValue + "")
                 {
                     ChangeClass(i.GetType().Name);
+                    InsertName.Text = i.Name;
+
+                    switch (i.GetType().Name)
+                    {
+                        case "Rogue":
+                            RogueBtn.IsChecked = true;
+                            break;
+                        case "Warrior":
+                            WarriorBtn.IsChecked = true;   
+                            break ;
+                        case "Wizard":
+                            WizardBtn.IsChecked = true;
+                            break;
+                    }
                     //(i.GetType().Name).IsChecked
                     SliderStrength.Value = i.Strength;
                     SliderIntellingence.Value = i.Intelligence;

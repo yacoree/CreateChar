@@ -37,9 +37,9 @@
                         <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <StackPanel Height="50" Width="100" Margin="20" HorizontalAlignment="Left" VerticalAlignment="Top">
-                        <RadioButton Content="Rogue" IsChecked="True" Click="RadioButton_Click"/>
-                        <RadioButton Content="Warrior" Click="RadioButton_Click"/>
-                        <RadioButton Content="Wizard"  Click="RadioButton_Click"/>
+                        <RadioButton Content="Rogue" Name="RogueBtn" IsChecked="True" Click="RadioButton_Click"/>
+                        <RadioButton Content="Warrior" Name="WarriorBtn" Click="RadioButton_Click"/>
+                        <RadioButton Content="Wizard" Name="WizardBtn" Click="RadioButton_Click"/>
                     </StackPanel>
                     <TextBox x:Name="InsertName" Grid.Column="1" HorizontalAlignment="Center" Margin="0,31,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="180"/>
                     <TextBlock HorizontalAlignment="Left" Width="100" Margin="10,10,0,0" TextWrapping="Wrap" Text="Name character" VerticalAlignment="Top" Grid.Column="1"/>

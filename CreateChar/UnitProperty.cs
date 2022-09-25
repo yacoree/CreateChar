@@ -49,11 +49,11 @@ namespace CreateChar
 
         public override string ToString()
         {
-            var res = $"Health point - {healthPoint}\n" +
-                $"Mana pool - {manaPool}\n" +
-                $"Physical protection - {PhysicalProtection}\n" +
-                $"Physical attack - {PhysicalAttack}\n" +
-                $"Magical attack - {magicalAttack}\n";
+            var res = $"Health point - {1.0 * healthPoint / 10}\n" +
+                $"Mana pool - {1.0 * manaPool / 10}\n" +
+                $"Physical protection - {1.0 * PhysicalProtection / 10}\n" +
+                $"Physical attack - {1.0 * PhysicalAttack / 10}\n" +
+                $"Magical attack - {1.0 * magicalAttack / 10}\n";
             return res;
         }
     }
