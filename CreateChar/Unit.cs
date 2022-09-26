@@ -8,6 +8,7 @@ namespace CreateChar
     public class Unit
     {
         [BsonId]
+        [BsonIgnoreIfDefault]
         ObjectId id;
 
         private string name;
@@ -43,7 +44,7 @@ namespace CreateChar
 
         public override string ToString()
         {
-            return Name + "\n\n" + Max.ToString();
+            return $"{Name}\n\n{Max}";
         }
 
 

@@ -136,11 +136,22 @@ namespace CreateCharWpf
                             (int)SliderIntellingence.Value);
                         break;
                 }
-                MessageBox.Show(newUnit.Max.ToString());
-                //MessageBox.Show(newUnit.GetType().ToString());
-                MongoExample.AddToDB(newUnit);
+                if (MongoExample.Find(newUnit.Name) == null)
+                {
+                    MongoExample.AddToDB(newUnit);
+                }
+                else
+                {
+                    if (MessageBox.Show("You want overwrite this unit?",
+                    "Overwrite unit",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question) == MessageBoxResult.Yes)
+                    {
+                        MongoExample.ReplaceUnit(newUnit.Name, newUnit);
+                    }
+                }
+                //MessageBox.Show(newUnit.Max.ToString());
                 ComboBoxUpdate();
-                //ChangeUnit.Items.Add(newUnit);
             }
             
         }
@@ -219,7 +230,6 @@ namespace CreateCharWpf
                             WizardBtn.IsChecked = true;
                             break;
                     }
-                    //(i.GetType().Name).IsChecked
                     SliderStrength.Value = i.Strength;
                     SliderIntellingence.Value = i.Intelligence;
                     SliderDexterity.Value = i.Dexterity;

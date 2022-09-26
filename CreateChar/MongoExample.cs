@@ -27,7 +27,6 @@ namespace CreateChar
         public static void AddToDB(Unit unit)
         {
             collection.InsertOne(unit);
-
         }
 
         public static List<Unit> FindAll()
@@ -40,6 +39,10 @@ namespace CreateChar
 
         }
 
+        public static void ReplaceUnit(string name, Unit unit)
+        {
+            collection.ReplaceOne(x => x.Name == name, unit);
+        }
 
         public static Unit Find(string name)
         {
