@@ -47,13 +47,34 @@ namespace CreateChar
             return leftP.Increase(rightP);
         }
 
+        public UnitProperty Multiply(int num)
+        {
+            UnitProperty returned = new UnitProperty();
+            returned.HealthPoint = this.HealthPoint * num;
+            returned.PhysicalProtection = this.PhysicalProtection * num;
+            returned.ManaPool = this.ManaPool * num;
+            returned.PhysicalAttack = this.PhysicalAttack * num;
+            returned.MagicalAttack = this.MagicalAttack * num;
+            return returned;
+        }
+
+        public static UnitProperty operator *(UnitProperty leftP, int rightI)
+        {
+            return leftP.Multiply(rightI);
+        }
+
+        public static UnitProperty operator *(int leftI, UnitProperty rightP)
+        {
+            return rightP.Multiply(leftI);
+        }
+
         public override string ToString()
         {
-            var res = $"Health point - {1.0 * healthPoint / 10}\n" +
-                $"Mana pool - {1.0 * manaPool / 10}\n" +
-                $"Physical protection - {1.0 * PhysicalProtection / 10}\n" +
-                $"Physical attack - {1.0 * PhysicalAttack / 10}\n" +
-                $"Magical attack - {1.0 * magicalAttack / 10}\n";
+            var res = $"Health point - {healthPoint / 10.0}\n" +
+                $"Mana pool - {manaPool / 10.0}\n" +
+                $"Physical protection - {PhysicalProtection / 10.0}\n" +
+                $"Physical attack - {PhysicalAttack / 10.0}\n" +
+                $"Magical attack - {magicalAttack / 10.0}\n";
             return res;
         }
     }

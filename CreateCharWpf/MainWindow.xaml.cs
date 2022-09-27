@@ -17,6 +17,7 @@ using MongoDB.Driver;
 using MongoDB;
 using System.Collections;
 using System.Xml.Linq;
+using System.Security.Policy;
 
 namespace CreateCharWpf
 {
@@ -25,57 +26,35 @@ namespace CreateCharWpf
     /// </summary>
     public partial class MainWindow : Window
     {
-        string currentClass = "Rogue";
         Field StrengthCharacteristic;
         Field DexterityCharacteristic;
         Field ConstitutionCharacteristic;
         Field IntelligenceCharacteristic;
-        List<Unit> users;
 
         public MainWindow()
         {
             InitializeComponent();
-            ChangeClass(currentClass);
 
-            TextStrength.Text = SliderStrength.Value + "";
-            TextIntellingence.Text = SliderIntellingence.Value + "";
-            TextConstitution.Text = SliderConstitution.Value + "";
-            TextDexterity.Text = SliderDexterity.Value + "";
-
+            ChangeClassComboBox.Items.Clear();
+            foreach (var i in UnitMaker.UnitClassCode)
+            {
+                ChangeClassComboBox.Items.Add(i.Key);
+            }
+            ChangeClassComboBox.SelectedIndex = 0;
+            ChangeClass($"{ChangeClassComboBox.SelectedValue}");
+            TextInfoUpdate();
             ShowFinalStats();
-            ComboBoxUpdate();
-        }
-
-
-        private void RadioButton_Click(object sender, RoutedEventArgs e)
-        {
-            currentClass  = (sender as RadioButton).Content + "";
-            ChangeClass(currentClass);
+            ChangeUnitComboBoxUpdate();
         }
 
         private void ChangeClass(string currentClass)
         {
-            switch (currentClass)
-            {
-                case "Rogue":
-                    StrengthCharacteristic = Rogue.StrengthCharacteristic;
-                    IntelligenceCharacteristic = Rogue.IntelligenceCharacteristic;
-                    ConstitutionCharacteristic = Rogue.ConstitutionCharacteristic;
-                    DexterityCharacteristic = Rogue.DexterityCharacteristic;
-                    break;
-                case "Warrior":
-                    StrengthCharacteristic = Warrior.StrengthCharacteristic;
-                    IntelligenceCharacteristic = Warrior.IntelligenceCharacteristic;
-                    ConstitutionCharacteristic = Warrior.ConstitutionCharacteristic;
-                    DexterityCharacteristic = Warrior.DexterityCharacteristic;
-                    break;
-                case "Wizard":
-                    StrengthCharacteristic = Wizard.StrengthCharacteristic;
-                    IntelligenceCharacteristic = Wizard.IntelligenceCharacteristic;
-                    ConstitutionCharacteristic = Wizard.ConstitutionCharacteristic;
-                    DexterityCharacteristic = Wizard.DexterityCharacteristic;
-                    break;
-            }
+            Field[] characteristics = UnitMaker.GetCharacteristics($"{ChangeClassComboBox.SelectedValue}");
+            StrengthCharacteristic = characteristics[0];
+            IntelligenceCharacteristic = characteristics[1];
+            ConstitutionCharacteristic = characteristics[2];
+            DexterityCharacteristic = characteristics[3];
+
             SliderStrength.Maximum = StrengthCharacteristic.Maximum;
             SliderStrength.Minimum = StrengthCharacteristic.Minimum;
 
@@ -87,58 +66,37 @@ namespace CreateCharWpf
 
             SliderDexterity.Maximum = DexterityCharacteristic.Maximum;
             SliderDexterity.Minimum = DexterityCharacteristic.Minimum;
-
-
         }
 
         private void SliderStrength_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            TextStrength.Text = (int) SliderStrength.Value + "";
-            TextIntellingence.Text = (int) SliderIntellingence.Value + "";
-            TextConstitution.Text = (int) SliderConstitution.Value + "";
-            TextDexterity.Text = (int) SliderDexterity.Value + "";
+            TextInfoUpdate();
             ShowFinalStats();
+        }
+
+        private void TextInfoUpdate()
+        {
+            TextStrength.Text = (int)SliderStrength.Value + "";
+            TextIntellingence.Text = (int)SliderIntellingence.Value + "";
+            TextConstitution.Text = (int)SliderConstitution.Value + "";
+            TextDexterity.Text = (int)SliderDexterity.Value + "";
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            Unit newUnit;
             if (InsertName.Text != "")
             {
-                switch (currentClass)
-                {
-                    case "Rogue":
-                        newUnit = new Rogue(InsertName.Text, 
-                            (int) SliderStrength.Value, 
-                            (int) SliderDexterity.Value, 
-                            (int) SliderConstitution.Value, 
-                            (int) SliderIntellingence.Value);
-                        break;
-                    case "Warrior":
-                        newUnit = new Warrior(InsertName.Text,
+                var newUnit = UnitMaker.Make(
+                            $"{ChangeClassComboBox.SelectedValue}",
+                            InsertName.Text,
                             (int)SliderStrength.Value,
                             (int)SliderDexterity.Value,
                             (int)SliderConstitution.Value,
                             (int)SliderIntellingence.Value);
-                        break;
-                    case "Wizard":
-                        newUnit = new Wizard(InsertName.Text,
-                            (int)SliderStrength.Value,
-                            (int)SliderDexterity.Value,
-                            (int)SliderConstitution.Value,
-                            (int)SliderIntellingence.Value);
-                        break;
-                    default:
-                        newUnit = new Rogue(InsertName.Text,
-                            (int)SliderStrength.Value,
-                            (int)SliderDexterity.Value,
-                            (int)SliderConstitution.Value,
-                            (int)SliderIntellingence.Value);
-                        break;
-                }
                 if (MongoExample.Find(newUnit.Name) == null)
                 {
                     MongoExample.AddToDB(newUnit);
+                    ChangeUnitComboBoxUpdate();
                 }
                 else
                 {
@@ -150,58 +108,36 @@ namespace CreateCharWpf
                         MongoExample.ReplaceUnit(newUnit.Name, newUnit);
                     }
                 }
-                //MessageBox.Show(newUnit.Max.ToString());
-                ComboBoxUpdate();
             }
-            
         }
 
         private void ShowFinalStats()
         {
-            UnitProperty res = new UnitProperty();
-
-            switch (currentClass)
-            {
-                case "Rogue":
-                    res = Rogue.TakeUnitStats(
+            UnitProperty res = UnitMaker.TakeClassStats(
+                            $"{ChangeClassComboBox.SelectedValue}",
                             (int)SliderStrength.Value,
                             (int)SliderDexterity.Value,
                             (int)SliderConstitution.Value,
                             (int)SliderIntellingence.Value);
-                    break;
-                case "Warrior":
-                    res = Warrior.TakeUnitStats(
-                            (int)SliderStrength.Value,
-                            (int)SliderDexterity.Value,
-                            (int)SliderConstitution.Value,
-                            (int)SliderIntellingence.Value);
-                    break;
-                case "Wizard":
-                    res = Wizard.TakeUnitStats(
-                            (int)SliderStrength.Value,
-                            (int)SliderDexterity.Value,
-                            (int)SliderConstitution.Value,
-                            (int)SliderIntellingence.Value);
-                    break;
-            }
             FinalStatsText.Text = res.ToString();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            string DBName = "UnitsBase";
-            string collectionName = "Units";
             var client = new MongoClient();
-            var database = client.GetDatabase(DBName);
-            var collection = database.GetCollection<Unit>(collectionName);
-            var query = collection.AsQueryable<Unit>().OfType<Rogue>();
-            MessageBox.Show(query.ToString());
-            ComboBoxUpdate();
+            var database = client.GetDatabase("UnitsBase");
+            var collection = database.GetCollection<Unit>("Units");
+            var list = collection.Find(x => true).ToList();
+            foreach (var i in list)
+            {
+                MessageBox.Show($"{i.GetType().Name}");
+            }
+            ChangeUnitComboBoxUpdate();
         }
 
-        private void ComboBoxUpdate()
+        private void ChangeUnitComboBoxUpdate()
         {
-            users = MongoExample.FindAll();
+            var users = MongoExample.FindAll();
             ChangeUnit.Items.Clear();
             foreach (var i in users)
             {
@@ -211,31 +147,14 @@ namespace CreateCharWpf
 
         private void ChangeUnit_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            foreach (var i in users)
-            {
-                if (i.Name == ChangeUnit.SelectedValue + "")
-                {
-                    ChangeClass(i.GetType().Name);
-                    InsertName.Text = i.Name;
-
-                    switch (i.GetType().Name)
-                    {
-                        case "Rogue":
-                            RogueBtn.IsChecked = true;
-                            break;
-                        case "Warrior":
-                            WarriorBtn.IsChecked = true;   
-                            break ;
-                        case "Wizard":
-                            WizardBtn.IsChecked = true;
-                            break;
-                    }
-                    SliderStrength.Value = i.Strength;
-                    SliderIntellingence.Value = i.Intelligence;
-                    SliderDexterity.Value = i.Dexterity;
-                    SliderConstitution.Value = i.Constitution;
-                }
-            }
+            var i = MongoExample.Find($"{ChangeUnit.SelectedValue}");
+            ChangeClass(i.GetType().Name);
+            InsertName.Text = i.Name;
+            ChangeClassComboBox.SelectedValue = i.GetType().Name;
+            SliderStrength.Value = i.Strength;
+            SliderIntellingence.Value = i.Intelligence;
+            SliderDexterity.Value = i.Dexterity;
+            SliderConstitution.Value = i.Constitution;
         }
     }
 }

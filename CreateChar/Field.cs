@@ -8,44 +8,28 @@ namespace CreateChar
 {
     public class Field
     {
-        int minimum;
-        int maximum;
-
-        int physicalProtection;
-        int healthPoint;
-        int manaPool;
-        int physicalAttack;
-        int magicalAttack;
+        public Field(int minimum, int maximum, UnitProperty property)
+        {
+            Minimum = minimum;
+            Maximum = maximum;
+            Property = property;
+        }
 
         public Field(int minimum, int maximum, int physicalProtection, int healthPoint, 
             int manaPool, int physicalAttack, int magicalAttack)
         {
-            this.minimum = minimum;
-            this.maximum = maximum;
-            this.physicalProtection = physicalProtection;
-            this.healthPoint = healthPoint;
-            this.manaPool = manaPool;
-            this.physicalAttack = physicalAttack;
-            this.magicalAttack = magicalAttack;
+            Minimum = minimum;
+            Maximum = maximum;
+            Property = new UnitProperty(physicalProtection, healthPoint, manaPool, physicalAttack, magicalAttack);
         }
 
-        public int Minimum { get => minimum; }
-        public int Maximum { get => maximum; }
-        public int PhysicalProtection { get => physicalProtection; }
-        public int HealthPoint { get => healthPoint; }
-        public int ManaPool { get => manaPool; }
-        public int PhysicalAttack { get => physicalAttack; }
-        public int MagicalAttack { get => magicalAttack; }
+        public int Minimum { get; set; }
+        public int Maximum { get; set; }
+        public UnitProperty Property { get; set; }
 
         public UnitProperty AddPoint(int points)
         {
-            UnitProperty returned = new UnitProperty();
-            returned.HealthPoint = this.HealthPoint * points;
-            returned.PhysicalProtection = this.PhysicalProtection * points;
-            returned.ManaPool = this.ManaPool * points;
-            returned.PhysicalAttack = this.PhysicalAttack * points;
-            returned.MagicalAttack = this.MagicalAttack * points;
-            return returned;
+            return Property * points;
         }
     }
 }

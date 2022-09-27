@@ -31,11 +31,7 @@ namespace CreateChar
 
         public static List<Unit> FindAll()
         {
-            List<Unit> res = new List<Unit>();
-            foreach (var i in UnitClass("Rogue")) res.Add(i);
-            foreach (var i in UnitClass("Wizard")) res.Add(i);
-            foreach (var i in UnitClass("Warrior")) res.Add(i);
-            return res;
+            return collection.Find(x => true).ToList(); 
 
         }
 
@@ -46,8 +42,7 @@ namespace CreateChar
 
         public static Unit Find(string name)
         {
-            var one = collection.Find(x => x.Name == name).FirstOrDefault();
-            return one;
+            return collection.Find(x => x.Name == name).FirstOrDefault();
         }
 
         private static List<Unit> UnitClass(string unitClass)

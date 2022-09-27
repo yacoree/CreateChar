@@ -4,8 +4,7 @@ using MongoDB.Bson.Serialization.Attributes;
 namespace CreateChar
 {
     [BsonKnownTypes(typeof(Wizard), typeof(Rogue), typeof(Warrior))]
-
-    public class Unit
+    public abstract class Unit
     {
         [BsonId]
         [BsonIgnoreIfDefault]
@@ -18,13 +17,8 @@ namespace CreateChar
         private int constitution;
         private int intelligence;
 
-        /*protected string NameSet { set => name = value; }
-        protected UnitProperty MaxSet { set => max = value; }
-        protected int StrengthSet { set => strength = value; }
-        protected int DexteritySet { set => dexterity = value; }
-        protected int ConstitutionSet { set => constitution = value; }
-        protected int IntelligenceSet { set => intelligence = value; }*/
-
+        [BsonIgnoreIfNull]
+        List<Item> Items { get; set; }
         public string Name { get => name; set => name = value; }
         public UnitProperty Max { get => max; set => max = value; }
         public int Strength { get => strength; set => strength = value; }
@@ -32,14 +26,14 @@ namespace CreateChar
         public int Constitution { get => constitution; set => constitution = value; }
         public int Intelligence { get => intelligence; set => intelligence = value; }
 
-        
         protected Unit(string name, int strength, int dexterity, int constitution, int intelligence)
         {
-            this.Strength = strength;
-            this.Dexterity = dexterity;
-            this.Constitution = constitution;
-            this.Intelligence = intelligence;
-            this.Name = name;
+            Strength = strength;
+            Dexterity = dexterity;
+            Constitution = constitution;
+            Intelligence = intelligence;
+            Name = name;
+            Items = new List<Item>();
         }
 
         public override string ToString()
@@ -47,13 +41,14 @@ namespace CreateChar
             return $"{Name}\n\n{Max}";
         }
 
-
-        /*protected Unit(int strength, int dexterity, int constitution, int intelligence)
+        public void AddItem(Item item)
         {
-            this.StrengthSet = strength;
-            this.DexteritySet = dexterity;
-            this.ConstitutionSet = constitution;
-            this.IntelligenceSet = intelligence;
-        }*/
+            Items.Add(item);
+        }
+
+        public void Removeitem(Item item)
+        {
+            Items.Remove(item);
+        }
     }
 }
