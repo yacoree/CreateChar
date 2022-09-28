@@ -30,6 +30,7 @@ namespace CreateCharWpf
         Field DexterityCharacteristic;
         Field ConstitutionCharacteristic;
         Field IntelligenceCharacteristic;
+        int MarginTopItem = 10;
 
         public MainWindow()
         {
@@ -124,15 +125,14 @@ namespace CreateCharWpf
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var client = new MongoClient();
-            var database = client.GetDatabase("UnitsBase");
-            var collection = database.GetCollection<Unit>("Units");
-            var list = collection.Find(x => true).ToList();
-            foreach (var i in list)
+            Inventory.Children.Add(new CheckBox { Name = "", Content = "Новый флажок", Margin = new Thickness(10, MarginTopItem, 0, 0) });
+            foreach (var i in Inventory.Children)
             {
-                MessageBox.Show($"{i.GetType().Name}");
+                var j = i as CheckBox;
+                if (j.IsChecked == true) { MessageBox.Show(j.Content + "");}
+                
             }
-            ChangeUnitComboBoxUpdate();
+            MarginTopItem += 20;
         }
 
         private void ChangeUnitComboBoxUpdate()
