@@ -20,6 +20,8 @@ namespace CreateCharWpf
     /// </summary>
     public partial class CreateItemWindow : Window
     {
+        Item Item { get; set; }
+
         public CreateItemWindow()
         {
             InitializeComponent();
@@ -27,7 +29,17 @@ namespace CreateCharWpf
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var item = new Item(ItemName.Text, Convert.ToInt32(ItemCount.Text));
+            if (ItemName.Text != "" && ItemCount.Text != "") { this.DialogResult = true; }
+        }
+
+        private void ItemCount_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            {
+                if (!Char.IsDigit(e.Text, 0))
+                {
+                    e.Handled = true;
+                }
+            }
         }
     }
 }

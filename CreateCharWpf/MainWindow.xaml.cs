@@ -31,11 +31,12 @@ namespace CreateCharWpf
         Field ConstitutionCharacteristic;
         Field IntelligenceCharacteristic;
         int MarginTopItem = 10;
+        List<Item> items;
 
         public MainWindow()
         {
             InitializeComponent();
-
+            items = new List<Item>();
             ChangeClassComboBox.Items.Clear();
             foreach (var i in UnitMaker.UnitClassCode)
             {
@@ -94,6 +95,20 @@ namespace CreateCharWpf
                             (int)SliderDexterity.Value,
                             (int)SliderConstitution.Value,
                             (int)SliderIntellingence.Value);
+                foreach (var i in Inventory.Children)
+                {
+                    var j = i as CheckBox;
+                    foreach (var item in items)
+                    {
+                        if (j.IsChecked == true)
+                        {
+                            if ($"{j.Content}" == item.ItemName)
+                            {
+                                newUnit.AddItem(item);
+                            }
+                        }
+                    }
+                }
                 if (MongoExample.Find(newUnit.Name) == null)
                 {
                     MongoExample.AddToDB(newUnit);
@@ -110,6 +125,7 @@ namespace CreateCharWpf
                     }
                 }
             }
+            
         }
 
         private void ShowFinalStats()
@@ -125,14 +141,21 @@ namespace CreateCharWpf
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Inventory.Children.Add(new CheckBox { Name = "", Content = "Новый флажок", Margin = new Thickness(10, MarginTopItem, 0, 0) });
-            foreach (var i in Inventory.Children)
+            CreateItemWindow createItemWindow = new CreateItemWindow();
+            if (createItemWindow.ShowDialog() == true)
             {
-                var j = i as CheckBox;
-                if (j.IsChecked == true) { MessageBox.Show(j.Content + "");}
-                
+                var item = new Item(createItemWindow.ItemName.Text, Convert.ToInt32(createItemWindow.ItemCount.Text));
+                foreach (var i in items)
+                {
+                    if (i.ItemName == item.ItemName)
+                    {
+                        return;
+                    }
+                }
+                items.Add(item);
+                Inventory.Children.Add(new CheckBox { Content = $"{item.ItemName}", Margin = new Thickness(10, MarginTopItem, 0, 0) });
+                MarginTopItem += 20;
             }
-            MarginTopItem += 20;
         }
 
         private void ChangeUnitComboBoxUpdate()
@@ -155,6 +178,58 @@ namespace CreateCharWpf
             SliderIntellingence.Value = i.Intelligence;
             SliderDexterity.Value = i.Dexterity;
             SliderConstitution.Value = i.Constitution;
+
+            if (i.Items != null)
+            {
+                foreach (var unitItem in i.Items)
+                {
+                    if (items.Count == 0)
+                    {
+                        items.Add(unitItem);
+                    }
+                    else
+                    {
+                        try
+                        {
+                            foreach (var item in items)
+                            {
+                                if (unitItem.ItemName != item.ItemName)
+                                {
+                                    items.Add(unitItem);
+                                }
+                            }
+                        }
+                        catch (InvalidOperationException invalidOperationException) { }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message);
+                        }
+                    }
+                }
+            }
+
+            Inventory.Children.Clear();
+            MarginTopItem = 10;
+            foreach (var item in items)
+            {
+                Inventory.Children.Add(new CheckBox { Content = $"{item.ItemName}", Margin = new Thickness(10, MarginTopItem, 0, 0) });
+                MarginTopItem += 20;
+            }
+
+            foreach (var inventoryItem in Inventory.Children)
+            {
+                var checkBoxItem = inventoryItem as CheckBox;
+                if (i.Items != null)
+                {
+                    foreach (var unitItem in i.Items)
+                    {
+                        if ($"{checkBoxItem.Content}" == unitItem.ItemName)
+                        {
+                            checkBoxItem.IsChecked = true;
+                        }
+                    }
+                }
+            }
         }
     }
 }

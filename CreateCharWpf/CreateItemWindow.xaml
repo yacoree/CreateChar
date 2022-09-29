@@ -36,10 +36,10 @@
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
 
-                        <TextBox x:Name="ItemName" HorizontalAlignment="Center" Grid.Column="0" Margin="0,32,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="180" Height="22"/>
+                        <TextBox x:Name="ItemName" HorizontalAlignment="Center" Margin="0,32,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="180" Height="22"/>
                         <TextBlock HorizontalAlignment="Left" Width="100" Margin="10,10,0,0" TextWrapping="Wrap" Text="Item name" VerticalAlignment="Top" Grid.Column="0"/>
                         <TextBlock HorizontalAlignment="Left" Width="100" Margin="10,10,0,0" TextWrapping="Wrap" Text="Item count" VerticalAlignment="Top" Grid.Column="1"/>
-                        <TextBox x:Name="ItemCount" HorizontalAlignment="Center" Grid.Column="1" Margin="0,32,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="180" Height="22"/>
+                        <TextBox x:Name="ItemCount" HorizontalAlignment="Center" Grid.Column="1" Margin="0,32,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="180" Height="22"  PreviewTextInput="ItemCount_PreviewTextInput"/>
                     </Grid>
                 </Grid>
                 <Button Content="Save" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Click="Button_Click"/>

@@ -18,13 +18,14 @@ namespace CreateChar
         private int intelligence;
 
         [BsonIgnoreIfNull]
-        List<Item> Items { get; set; }
+        public List<Item> Items { get; set; }
         public string Name { get => name; set => name = value; }
         public UnitProperty Max { get => max; set => max = value; }
         public int Strength { get => strength; set => strength = value; }
         public int Dexterity { get => dexterity; set => dexterity = value; }
         public int Constitution { get => constitution; set => constitution = value; }
         public int Intelligence { get => intelligence; set => intelligence = value; }
+        public int Experience { get; set; }
 
         protected Unit(string name, int strength, int dexterity, int constitution, int intelligence)
         {
