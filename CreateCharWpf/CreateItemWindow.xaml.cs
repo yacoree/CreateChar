@@ -20,7 +20,7 @@ namespace CreateCharWpf
     /// </summary>
     public partial class CreateItemWindow : Window
     {
-        Item Item { get; set; }
+        public Item Item { get; set; }
 
         public CreateItemWindow()
         {

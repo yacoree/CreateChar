@@ -236,7 +236,7 @@ namespace CreateCharWpf
             CreateItemWindow createItemWindow = new CreateItemWindow();
             if (createItemWindow.ShowDialog() == true)
             {
-                Inventory.Items.Add(new { Item = i.Key, Count = i.Value });
+                ItemStore.Items.Add(new { ItemName = createItemWindow.Item, Property = createItemWindow.Item.ItemPropery });
             }
         }
     }
