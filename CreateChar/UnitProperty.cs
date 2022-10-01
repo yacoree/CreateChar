@@ -23,7 +23,14 @@ namespace CreateChar
             MagicalAttack = magicalAttack;
         }
 
-        public UnitProperty() { }
+        public UnitProperty() 
+        {
+            physicalProtection = 0;
+            healthPoint = 0;
+            manaPool = 0 ;
+            physicalAttack = 0;
+            magicalAttack = 0;
+        }
 
         public int PhysicalProtection { get => physicalProtection; set => physicalProtection = value; }
         public int HealthPoint { get => healthPoint; set => healthPoint = value; }
@@ -41,10 +48,27 @@ namespace CreateChar
             returned.MagicalAttack = this.MagicalAttack + unitProperty.MagicalAttack;
             return returned;
         }
+        
 
         public static UnitProperty operator +(UnitProperty leftP, UnitProperty rightP)
         {
             return leftP.Increase(rightP);
+        }
+
+        public UnitProperty Subtraction(UnitProperty unitProperty)
+        {
+            UnitProperty returned = new UnitProperty();
+            returned.HealthPoint = this.HealthPoint - unitProperty.HealthPoint;
+            returned.PhysicalProtection = this.PhysicalProtection - unitProperty.PhysicalProtection;
+            returned.ManaPool = this.ManaPool - unitProperty.ManaPool;
+            returned.PhysicalAttack = this.PhysicalAttack - unitProperty.PhysicalAttack;
+            returned.MagicalAttack = this.MagicalAttack - unitProperty.MagicalAttack;
+            return returned;
+        }
+
+        public static UnitProperty operator -(UnitProperty leftP, UnitProperty rightP)
+        {
+            return (leftP != null) ?leftP.Subtraction(rightP): new UnitProperty();
         }
 
         public UnitProperty Multiply(int num)

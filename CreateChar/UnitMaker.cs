@@ -34,7 +34,7 @@ namespace CreateChar
 
         static public Unit Make(UnitsClasses pieceCode, string name, int strength, int dexterity, int constitution, int intelligence)
         {
-            Unit unit = null;
+            Unit unit;
 
             switch (pieceCode)
             {
@@ -55,12 +55,38 @@ namespace CreateChar
             return unit;
         }
 
+        static public Unit MakeTestUnit(UnitsClasses pieceCode)
+        {
+            Unit unit;
+
+            switch (pieceCode)
+            {
+                case UnitsClasses.Rogue:
+                    unit = new Rogue("", 0, 0, 0, 0);
+                    break;
+                case UnitsClasses.Warrior:
+                    unit = new Warrior("", 0, 0, 0, 0);
+                    break;
+                case UnitsClasses.Wizard:
+                    unit = new Wizard("", 0, 0, 0, 0);
+                    break;
+
+                default:
+                    throw new Exception("Unknown unit's class");
+            }
+
+            return unit;
+        }
+
+        static public Unit MakeTestUnit(string unitClass)
+        {
+            return MakeTestUnit(UnitClassCode[unitClass]);
+        }
+
         static public Unit Make(string unitClass, string name, int strength, int dexterity, int constitution, int intelligence)
         {
             return Make(UnitClassCode[unitClass], name, strength, dexterity, constitution, intelligence);
         }
-
-
 
         static public UnitProperty TakeClassStats(UnitsClasses pieceCode, int strength, int dexterity, int constitution, int intelligence)
         {
@@ -84,13 +110,11 @@ namespace CreateChar
 
             return property;
         }
-
+        
         static public UnitProperty TakeClassStats(string unitClass, int strength, int dexterity, int constitution, int intelligence)
         {
             return TakeClassStats(UnitClassCode[unitClass], strength, dexterity, constitution, intelligence);
         }
-
-
 
         static public Field[] GetCharacteristics(UnitsClasses pieceCode)
         {
@@ -129,12 +153,6 @@ namespace CreateChar
         static public Field[] GetCharacteristics(string unitClass)
         {
             return GetCharacteristics(UnitClassCode[unitClass]);
-        }
-
-
-        static public Unit TransformUnit(string unitClass, Unit unit)
-        {
-            return Make(unitClass, unit.Name, unit.Strength, unit.Dexterity, unit.Constitution, unit.Intelligence);
         }
     }
 }

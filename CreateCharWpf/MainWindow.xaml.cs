@@ -1,23 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using CreateChar;
-using MongoDB.Driver;
-using MongoDB;
-using System.Collections;
-using System.Xml.Linq;
-using System.Security.Policy;
 
 namespace CreateCharWpf
 {
@@ -36,17 +21,17 @@ namespace CreateCharWpf
         public MainWindow()
         {
             InitializeComponent();
-            items = new List<Item>();
-            ChangeClassComboBox.Items.Clear();
-            foreach (var i in UnitMaker.UnitClassCode)
+            //items = new List<Item>();
+            //ChangeClassComboBox.Items.Clear();
+            //foreach (var i in UnitMaker.UnitClassCode)
             {
-                ChangeClassComboBox.Items.Add(i.Key);
+            //    ChangeClassComboBox.Items.Add(i.Key);
             }
             ChangeClassComboBox.SelectedIndex = 0;
-            ChangeClass($"{ChangeClassComboBox.SelectedValue}");
-            TextInfoUpdate();
-            ShowFinalStats();
-            ChangeUnitComboBoxUpdate();
+            //ChangeClass($"{ChangeClassComboBox.SelectedValue}");
+            //TextInfoUpdate();
+            //ShowFinalStats();
+            /////ChangeUnitComboBoxUpdate();
         }
 
         private void ChangeClass(string currentClass)
@@ -104,7 +89,8 @@ namespace CreateCharWpf
                         {
                             if ($"{j.Content}" == item.ItemName)
                             {
-                                newUnit.AddItem(item);
+                                newUnit.AddItemToInventory(item);
+                                //newUnit.AddItem(item);
                             }
                         }
                     }
@@ -144,7 +130,7 @@ namespace CreateCharWpf
             CreateItemWindow createItemWindow = new CreateItemWindow();
             if (createItemWindow.ShowDialog() == true)
             {
-                var item = new Item(createItemWindow.ItemName.Text, Convert.ToInt32(createItemWindow.ItemCount.Text));
+                var item = new Item(createItemWindow.ItemName.Text);
                 foreach (var i in items)
                 {
                     if (i.ItemName == item.ItemName)
@@ -178,10 +164,10 @@ namespace CreateCharWpf
             SliderIntellingence.Value = i.Intelligence;
             SliderDexterity.Value = i.Dexterity;
             SliderConstitution.Value = i.Constitution;
-
-            if (i.Items != null)
+            /*
+            if (i.Inventory != null)
             {
-                foreach (var unitItem in i.Items)
+                foreach (var unitItem in i.Inventory)
                 {
                     if (items.Count == 0)
                     {
@@ -219,9 +205,9 @@ namespace CreateCharWpf
             foreach (var inventoryItem in Inventory.Children)
             {
                 var checkBoxItem = inventoryItem as CheckBox;
-                if (i.Items != null)
+                if (i.Inventory != null)
                 {
-                    foreach (var unitItem in i.Items)
+                    foreach (var unitItem in i.Inventory)
                     {
                         if ($"{checkBoxItem.Content}" == unitItem.ItemName)
                         {
@@ -229,6 +215,15 @@ namespace CreateCharWpf
                         }
                     }
                 }
+            }
+            */
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            Window1 createItemWindow = new Window1();
+            if (createItemWindow.ShowDialog() == true)
+            {
             }
         }
     }

@@ -27,7 +27,17 @@ namespace CreateChar
         public int Maximum { get; set; }
         public UnitProperty Property { get; set; }
 
-        public UnitProperty AddPoint(int points)
+        public UnitProperty SetPoints(int points)
+        {
+            if (points >= Minimum)
+            {
+                if (points <= Maximum) return Property * points;
+                else return Property * Maximum;
+            } 
+            return Property * Minimum;
+        }
+
+        public UnitProperty AddPoints(int points)
         {
             return Property * points;
         }

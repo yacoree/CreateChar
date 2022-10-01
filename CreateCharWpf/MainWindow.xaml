@@ -66,6 +66,7 @@
             <ScrollViewer Grid.Column="1" Margin="0,119,0,173">
                 <Grid x:Name="Inventory"/>
             </ScrollViewer>
+            <Button Grid.Column="1" Content="Button" HorizontalAlignment="Left" Margin="103,391,0,0" VerticalAlignment="Top" Click="Button_Click_1"/>
 
 
 
