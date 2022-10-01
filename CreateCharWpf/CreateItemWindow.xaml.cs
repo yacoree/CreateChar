@@ -29,7 +29,17 @@ namespace CreateCharWpf
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (ItemName.Text != "" && ItemCount.Text != "") { this.DialogResult = true; }
+            if (ItemName.Text != "")
+            {
+                Item = new Item(ItemName.Text);
+                Item.ItemPropery = new UnitProperty(
+                    Convert.ToInt32(PhysicalProtection.Text),
+                    Convert.ToInt32(HealthPoint.Text),
+                    Convert.ToInt32(ManaPool.Text),
+                    Convert.ToInt32(PhysicalAttack.Text),
+                    Convert.ToInt32(MagicalAttack.Text));
+                this.DialogResult = true;
+            }
         }
 
         private void ItemCount_PreviewTextInput(object sender, TextCompositionEventArgs e)

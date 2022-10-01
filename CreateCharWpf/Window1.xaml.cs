@@ -19,6 +19,7 @@ namespace CreateCharWpf
         int MarginTopItem = 10;
         List<Item> items;
         Unit currentUnit;
+        int currentPoints;
 
         public Window1()
         {
@@ -43,28 +44,37 @@ namespace CreateCharWpf
         {
             if (e.NewValue != (sender as Slider).Minimum)
             {
-                var incresevalue = (int) e.OldValue - ((int) e.NewValue);
-                if (incresevalue >= 0)
+                if (currentPoints != 0)
                 {
-                    if (incresevalue + currentUnit.SkillPoints <= currentUnit.SkillPoints)
+                    var incresevalue = (int)e.OldValue - ((int)e.NewValue);
+                    if (incresevalue < 0 && (currentPoints + incresevalue) < 0)
                     {
-                        currentUnit.SkillPoints += incresevalue;
+                        (sender as Slider).Value = e.OldValue;
+                        return;
                     }
-                    else
+                    if (incresevalue > 0)
                     {
-                        (sender as Slider).Value = e.OldValue + currentUnit.SkillPoints;
-                        currentUnit.SkillPoints = 0;
+                        currentPoints += incresevalue;
+                        return;
+                    }
+                    currentPoints += incresevalue;
+                    /*
+                        (sender as Slider).Value -= currentPoints;
+                        currentPoints = 0;
+                    */
+                    if (currentPoints > currentUnit.SkillPoints)
+                    {
+                        (sender as Slider).Value -= currentPoints;
+                        currentPoints = currentUnit.SkillPoints;
                     }
                 }
                 else
                 {
-                    (sender as Slider).Value -= incresevalue;
-                    currentUnit.SkillPoints += incresevalue;
 
+                    return;
                 }
-
             }
-            RemainingPoints.Text = currentUnit.SkillPoints.ToString();
+            RemainingPoints.Text = currentPoints.ToString();
             TextInfoUpdate();
         }
 
@@ -96,18 +106,24 @@ namespace CreateCharWpf
             Strength_Slider.Maximum = StrengthCharacteristic.Maximum;
             Strength_Slider.Minimum = StrengthCharacteristic.Minimum;
             Strength_Slider.SmallChange = 1;
+            Strength_Slider.Value = Strength_Slider.Minimum;
 
             Intelligence_Slider.Maximum = IntelligenceCharacteristic.Maximum;
             Intelligence_Slider.Minimum = IntelligenceCharacteristic.Minimum;
             Intelligence_Slider.SmallChange = 1;
+            Intelligence_Slider.Value = Intelligence_Slider.Minimum;
 
             Constitution_Slider.Maximum = ConstitutionCharacteristic.Maximum;
             Constitution_Slider.Minimum = ConstitutionCharacteristic.Minimum;
             Constitution_Slider.SmallChange = 1;
+            Constitution_Slider.Value = Constitution_Slider.Minimum;
 
             Dexterity_Slider.Maximum = DexterityCharacteristic.Maximum;
             Dexterity_Slider.Minimum = DexterityCharacteristic.Minimum;
             Dexterity_Slider.SmallChange = 1;
+            Dexterity_Slider.Value = Dexterity_Slider.Minimum;
+
+            RemainingPoints.Text = currentPoints.ToString();
         }
 
         private void TextInfoUpdate()
@@ -121,7 +137,8 @@ namespace CreateCharWpf
         private void ClassChange_Checked(object sender, RoutedEventArgs e)
         {
             currentUnit = UnitMaker.MakeTestUnit($"{(sender as RadioButton).Content}");
-
+            ExperienceProgressBar.Value = currentUnit.CurrentExperience;
+            currentPoints = currentUnit.SkillPoints;
             ChangeClass($"{(sender as RadioButton).Content}");
         }
 
@@ -129,6 +146,14 @@ namespace CreateCharWpf
         {
             var unit = MongoExample.Find($"{ChangeUnit.SelectedValue}");
             ChangeClass(unit.GetType().Name);
+            Inventory.Items.Clear();
+            if (unit.Inventory != null)
+            {
+                foreach (var i in unit.Inventory)
+                {
+                    Inventory.Items.Add(new { Item = i.Key, Count = i.Value });
+                }
+            }
             InsertName.Text = unit.Name;
             foreach (var i in panelUnitClassSelection.Children)
             {
@@ -196,12 +221,23 @@ namespace CreateCharWpf
             currentUnit.CurrentExperience = (int) (sender as ProgressBar).Value;
             //(sender as ProgressBar).Value = currentUnit.CurrentExperience;
             (sender as ProgressBar).Maximum = currentUnit.PointsToNextLevel;
-            UnitLevel.Text = $"{currentUnit.Level} lvl.";
+            UnitLevel.Text = $"{currentUnit.Level} lvl. {currentUnit.CurrentExperience}/{currentUnit.PointsToNextLevel}";
+            RemainingPoints.Text = currentPoints.ToString();
+
         }
 
         private void IncreaseExperience_Click(object sender, RoutedEventArgs e)
         {
             ExperienceProgressBar.Value += Convert.ToInt32((sender as Button).Name.Split('_')[1]);
+        }
+
+        private void CreateItem_Click(object sender, RoutedEventArgs e)
+        {
+            CreateItemWindow createItemWindow = new CreateItemWindow();
+            if (createItemWindow.ShowDialog() == true)
+            {
+                Inventory.Items.Add(new { Item = i.Key, Count = i.Value });
+            }
         }
     }
 }

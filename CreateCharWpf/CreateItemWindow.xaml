@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CreateCharWpf"
         mc:Ignorable="d"
-        Title="CreateItemWindow" Height="450" Width="400">
+        Title="CreateItemWindow" Height="450" Width="250">
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
@@ -30,17 +30,21 @@
                         <RowDefinition></RowDefinition>
                         <RowDefinition Height="30"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <Grid Grid.Row="0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
 
-                        <TextBox x:Name="ItemName" HorizontalAlignment="Center" Margin="0,32,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="180" Height="22"/>
-                        <TextBlock HorizontalAlignment="Left" Width="100" Margin="10,10,0,0" TextWrapping="Wrap" Text="Item name" VerticalAlignment="Top" Grid.Column="0"/>
-                        <TextBlock HorizontalAlignment="Left" Width="100" Margin="10,10,0,0" TextWrapping="Wrap" Text="Item count" VerticalAlignment="Top" Grid.Column="1"/>
-                        <TextBox x:Name="ItemCount" HorizontalAlignment="Center" Grid.Column="1" Margin="0,32,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="180" Height="22"  PreviewTextInput="ItemCount_PreviewTextInput"/>
-                    </Grid>
+                    <TextBox x:Name="ItemName" HorizontalAlignment="Left" Margin="0,32,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="180" Height="22"/>
+                    <TextBlock HorizontalAlignment="Left" Width="100" Margin="0,0,0,0" TextWrapping="Wrap" Text="Item name" VerticalAlignment="Top" Grid.Column="0"/>
+                        
+                    <TextBox Grid.Row="1" Text="0" x:Name="HealthPoint" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Height="22" PreviewTextInput="ItemCount_PreviewTextInput"/>
+                    <TextBlock Grid.Row="1"  HorizontalAlignment="Left" Width="100" TextWrapping="Wrap" Text="Health point" VerticalAlignment="Top"/>
+                    <TextBox Grid.Row="2" Text="0"  x:Name="ManaPool" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Height="22" PreviewTextInput="ItemCount_PreviewTextInput"/>
+                    <TextBlock Grid.Row="2"  HorizontalAlignment="Left" Width="100" TextWrapping="Wrap" Text="Mana pool" VerticalAlignment="Top"/>
+                    <TextBox Grid.Row="3" Text="0"  x:Name="PhysicalAttack" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Height="22" PreviewTextInput="ItemCount_PreviewTextInput"/>
+                    <TextBlock Grid.Row="3"  HorizontalAlignment="Left" Width="100" TextWrapping="Wrap" Text="Physical attack" VerticalAlignment="Top"/>
+                    <TextBox Grid.Row="4" Text="0"  x:Name="MagicalAttack" HorizontalAlignment="Left"  TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Height="22" PreviewTextInput="ItemCount_PreviewTextInput"/>
+                    <TextBlock Grid.Row="4"  HorizontalAlignment="Left" Width="100" TextWrapping="Wrap" Text="Magical attack" VerticalAlignment="Top"/>
+                    <TextBox Grid.Row="5" Text="0"  x:Name="PhysicalProtection" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Height="22" PreviewTextInput="ItemCount_PreviewTextInput"/>
+                    <TextBlock Grid.Row="4"  HorizontalAlignment="Left" TextWrapping="Wrap" Text="Physical protection" VerticalAlignment="Top" Margin="0,64,0,0" Grid.RowSpan="2"/>
+                    
                 </Grid>
                 <Button Content="Save" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Click="Button_Click"/>
             </Grid>
