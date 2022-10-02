@@ -11,37 +11,59 @@ namespace CreateChar
 {
     public static class MongoExample
     {
-        static string DBName = "UnitsBase";
-        static string collectionName = "Units";
+        static string dataBaseName = "UnitsBase";
+        static string unitCollectionName = "Units";
+        static string itemCollectionName = "Items";
         static MongoClient client;
         static IMongoDatabase database;
-        static IMongoCollection<Unit> collection;
+        static IMongoCollection<Unit> unitCollection;
+        static IMongoCollection<Item> itemCollection;
 
         static MongoExample()
         {
             client = new MongoClient();
-            database = client.GetDatabase(DBName);
-            collection = database.GetCollection<Unit>(collectionName);
+            database = client.GetDatabase(dataBaseName);
+            unitCollection = database.GetCollection<Unit>(unitCollectionName);
+            itemCollection = database.GetCollection<Item>(itemCollectionName);
         }
 
-        public static void AddToDB(Unit unit)
+        public static void AddUnitTodataBase(Unit unit)
         {
-            collection.InsertOne(unit);
+            unitCollection.InsertOne(unit);
         }
 
-        public static List<Unit> FindAll()
+        public static void AddItemTodataBase(Item item)
         {
-            return collection.Find(x => true).ToList();
+            itemCollection.InsertOne(item);
+        }
+
+        public static List<Unit> FindAllUnits()
+        {
+            return unitCollection.Find(x => true).ToList();
+        }
+
+        public static List<Item> FindAllItems()
+        {
+            return itemCollection.Find(x => true).ToList();
         }
 
         public static void ReplaceUnit(string name, Unit unit)
         {
-            collection.ReplaceOne(x => x.Name == name, unit);
+            unitCollection.ReplaceOne(x => x.Name == name, unit);
+        }
+        public static void ReplaceItem(string name, Item item)
+        {
+            itemCollection.ReplaceOne(x => x.ItemName == name, item);
         }
 
-        public static Unit Find(string name)
+        public static Unit FindUnit(string name)
         {
-            return collection.Find(x => x.Name == name).FirstOrDefault();
+            return unitCollection.Find(x => x.Name == name).FirstOrDefault();
+        }
+
+        public static Item Finditem(string name)
+        {
+            return itemCollection.Find(x => x.ItemName == name).FirstOrDefault();
         }
     }
 }

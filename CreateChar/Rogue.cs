@@ -29,10 +29,10 @@ namespace CreateChar
         public static Field ConstitutionCharacteristic { get => constitutionCharacteristic; }
         public static Field IntelligenceCharacteristic { get => intelligenceCharacteristic; }
 
-        public override int Strength 
+        public override int Strength
         {
             get { return strength; }
-            set 
+            set
             {
                 if (value >= strengthCharacteristic.Minimum)
                 {
@@ -59,85 +59,85 @@ namespace CreateChar
         }
         public override int Constitution
         {
-            get { return strength; }
+            get { return constitution; }
             set
             {
                 if (value >= constitutionCharacteristic.Minimum)
                 {
                     if (value <= constitutionCharacteristic.Maximum)
                     {
-                        CurrentPropertyUnit -= constitutionCharacteristic.AddPoints(strength);
+                        CurrentPropertyUnit -= constitutionCharacteristic.AddPoints(constitution);
                         CurrentPropertyUnit += constitutionCharacteristic.AddPoints(value);
-                        strength = value;
+                        constitution = value;
                     }
                     else
                     {
-                        CurrentPropertyUnit -= constitutionCharacteristic.AddPoints(strength);
+                        CurrentPropertyUnit -= constitutionCharacteristic.AddPoints(constitution);
                         CurrentPropertyUnit += constitutionCharacteristic.AddPoints(constitutionCharacteristic.Maximum);
-                        strength = constitutionCharacteristic.Maximum;
+                        constitution = constitutionCharacteristic.Maximum;
                     }
                 }
                 else
                 {
-                    CurrentPropertyUnit -= constitutionCharacteristic.AddPoints(strength);
+                    CurrentPropertyUnit -= constitutionCharacteristic.AddPoints(constitution);
                     CurrentPropertyUnit += constitutionCharacteristic.AddPoints(constitutionCharacteristic.Minimum);
-                    strength = constitutionCharacteristic.Minimum;
+                    constitution = constitutionCharacteristic.Minimum;
                 }
             }
         }
         public override int Dexterity
         {
-            get { return strength; }
+            get { return dexterity; }
             set
             {
                 if (value >= dexterityCharacteristic.Minimum)
                 {
                     if (value <= dexterityCharacteristic.Maximum)
                     {
-                        CurrentPropertyUnit -= dexterityCharacteristic.AddPoints(strength);
+                        CurrentPropertyUnit -= dexterityCharacteristic.AddPoints(dexterity);
                         CurrentPropertyUnit += dexterityCharacteristic.AddPoints(value);
-                        strength = value;
+                        dexterity = value;
                     }
                     else
                     {
-                        CurrentPropertyUnit -= dexterityCharacteristic.AddPoints(strength);
+                        CurrentPropertyUnit -= dexterityCharacteristic.AddPoints(dexterity);
                         CurrentPropertyUnit += dexterityCharacteristic.AddPoints(dexterityCharacteristic.Maximum);
-                        strength = dexterityCharacteristic.Maximum;
+                        dexterity = dexterityCharacteristic.Maximum;
                     }
                 }
                 else
                 {
-                    CurrentPropertyUnit -= dexterityCharacteristic.AddPoints(strength);
+                    CurrentPropertyUnit -= dexterityCharacteristic.AddPoints(dexterity);
                     CurrentPropertyUnit += dexterityCharacteristic.AddPoints(dexterityCharacteristic.Minimum);
-                    strength = dexterityCharacteristic.Minimum;
+                    dexterity = dexterityCharacteristic.Minimum;
                 }
             }
         }
         public override int Intelligence
         {
-            get { return strength; }
+            get { return intelligence; }
             set
             {
                 if (value >= intelligenceCharacteristic.Minimum)
                 {
                     if (value <= intelligenceCharacteristic.Maximum)
                     {
-                        CurrentPropertyUnit -= intelligenceCharacteristic.AddPoints(strength);
+                        CurrentPropertyUnit -= intelligenceCharacteristic.AddPoints(intelligence);
                         CurrentPropertyUnit += intelligenceCharacteristic.AddPoints(value);
-                        strength = value;
+                        intelligence = value;
                     }
                     else
                     {
-                        CurrentPropertyUnit -= intelligenceCharacteristic.AddPoints(strength);
+                        CurrentPropertyUnit -= intelligenceCharacteristic.AddPoints(intelligence);
                         CurrentPropertyUnit += intelligenceCharacteristic.AddPoints(intelligenceCharacteristic.Maximum);
-                        strength = intelligenceCharacteristic.Maximum;
+                        intelligence = intelligenceCharacteristic.Maximum;
                     }
                 }
                 else
                 {
-                    CurrentPropertyUnit -= intelligenceCharacteristic.AddPoints(strength);
+                    CurrentPropertyUnit -= intelligenceCharacteristic.AddPoints(intelligence);
                     CurrentPropertyUnit += intelligenceCharacteristic.AddPoints(intelligenceCharacteristic.Minimum);
-                    strength = intelligenceCharacteristic.Minimum;
+                    intelligence = intelligenceCharacteristic.Minimum;
                 }
             }
         }

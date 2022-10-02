@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson;
+using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
@@ -9,6 +11,10 @@ namespace CreateChar
 {
     public class Item
     {
+        [BsonId]
+        [BsonIgnoreIfDefault]
+        ObjectId id;
+
         public string ItemName { get; set; }
         public int ItemWeight { get; set; }
         public UnitProperty ItemPropery { get; set; }
@@ -29,19 +35,13 @@ namespace CreateChar
             ItemPropery = itemPropery;
         }
 
-        //Понимаю, что это не правильно, но пока не знаю как правильно переопределять GetHashCode
-        public override bool Equals(object? obj)
+        public bool EqualItem(Item comparedItem)
         {
-            if (obj == null) return false;
-            if (obj.GetType().Name != this.GetType().Name) return false;
-            if ((obj as Item).ItemName != this.ItemName) return false;
-            if ((obj as Item).ItemWeight != this.ItemWeight) return false;
-            if ($"{(obj as Item).ItemPropery}" != $"{this.ItemPropery}") return false;
+            if (comparedItem == null) return false;
+            if (comparedItem.ItemName != this.ItemName) return false;
+            if (comparedItem.ItemWeight != this.ItemWeight) return false;
+            if ($"{comparedItem.ItemPropery}" != $"{this.ItemPropery}") return false;
             return true;
         }
-
-        public static bool operator ==(Item itemL, Item itemR) => itemL.Equals(itemR);
-
-        public static bool operator !=(Item itemL, Item itemR) => !(itemL == itemR);
     }
 }

@@ -1,86 +1,184 @@
-﻿using System;
+﻿using CreateChar;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Windows;
 using System.Windows.Controls;
-using CreateChar;
+using System.Windows.Documents;
 
 namespace CreateCharWpf
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Логика взаимодействия для Window1.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class Window1 : Window
     {
         Field StrengthCharacteristic;
         Field DexterityCharacteristic;
         Field ConstitutionCharacteristic;
         Field IntelligenceCharacteristic;
-        int MarginTopItem = 10;
         List<Item> items;
+        Unit currentUnit;
 
-        public MainWindow()
+        public Window1()
         {
+            currentUnit = UnitMaker.MakeTestUnit("Rogue");
             InitializeComponent();
-            //items = new List<Item>();
-            //ChangeClassComboBox.Items.Clear();
-            //foreach (var i in UnitMaker.UnitClassCode)
+            panelUnitClassSelection.Children.Clear();
+            foreach (var i in UnitMaker.UnitClassCode)
             {
-            //    ChangeClassComboBox.Items.Add(i.Key);
+                var radioButton = new RadioButton { Name = $"{i.Key}_RBtn", Content = $"{i.Key}" };
+                radioButton.Checked += ClassChange_Checked;
+                panelUnitClassSelection.Children.Add(radioButton);
             }
-            ChangeClassComboBox.SelectedIndex = 0;
-            //ChangeClass($"{ChangeClassComboBox.SelectedValue}");
-            //TextInfoUpdate();
-            //ShowFinalStats();
-            /////ChangeUnitComboBoxUpdate();
+            (panelUnitClassSelection.Children[0] as RadioButton).IsChecked = true;
+
+            
+            ChangeClass(currentUnit.GetType().Name);
+            ChangeUnitUpdate();
+            ItemStoreUpdate();
+        }
+
+        private void ChangeValueButton_Click(object sender, RoutedEventArgs e)
+        {
+            int val = (sender as Button).Name.Split('_')[2] == "Down" ? -1 : 1;
+            switch ((sender as Button).Name.Split('_')[0])
+            {
+                case "Strength": Strength_Text.Text = $"{val + int.Parse(Strength_Text.Text)}"; break;
+                case "Intelligence": Intelligence_Text.Text = $"{val + int.Parse(Intelligence_Text.Text)}"; break;
+                case "Constitution": Constitution_Text.Text = $"{val + int.Parse(Constitution_Text.Text)}"; break;
+                case "Dexterity": Dexterity_Text.Text = $"{val + int.Parse(Dexterity_Text.Text)}"; break;
+            }
+        }
+
+        private void ChangeValueAttribute_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var textBox = sender as TextBox;
+            if (textBox.Text == "0") return;
+            int value;
+            switch (textBox.Name.Split("_")[0])
+            {
+                case "Strength":
+                    if (currentUnit.SkillPoints > 0)
+                    {
+                        if (StrengthCharacteristic.Minimum.ToString() == textBox.Text &&
+                            currentUnit.Strength == StrengthCharacteristic.Minimum) return;
+                        value = int.Parse(textBox.Text) - currentUnit.Strength;
+                        if (currentUnit.Strength + value >= StrengthCharacteristic.Minimum
+                            && currentUnit.Strength + value <= StrengthCharacteristic.Maximum)
+                        {
+                            currentUnit.Strength += value;
+                            currentUnit.SkillPoints -= value;
+                            RemainingPoints.Text = currentUnit.SkillPoints.ToString();
+                            return;
+                        }
+                    }
+                    textBox.Text = currentUnit.Strength + "";
+                    break;
+                case "Intelligence":
+                    if (currentUnit.SkillPoints > 0)
+                    {
+                        if (IntelligenceCharacteristic.Minimum.ToString() == textBox.Text &&
+                            currentUnit.Intelligence == IntelligenceCharacteristic.Minimum) return;
+                        value = int.Parse(textBox.Text) - currentUnit.Intelligence;
+                        if (currentUnit.Intelligence + value >= IntelligenceCharacteristic.Minimum
+                            && currentUnit.Intelligence + value <= IntelligenceCharacteristic.Maximum)
+                        {
+                            currentUnit.Intelligence += value;
+                            currentUnit.SkillPoints -= value;
+                            RemainingPoints.Text = currentUnit.SkillPoints.ToString();
+                            return;
+                        }
+                    }
+                    textBox.Text = currentUnit.Intelligence + "";
+                    break;
+                case "Constitution":
+                    if (currentUnit.SkillPoints > 0)
+                    {
+                        if (ConstitutionCharacteristic.Minimum.ToString() == textBox.Text &&
+                            currentUnit.Constitution == ConstitutionCharacteristic.Minimum) return;
+                        value = int.Parse(textBox.Text) - currentUnit.Constitution;
+                        if (currentUnit.Constitution + value >= ConstitutionCharacteristic.Minimum
+                            && currentUnit.Constitution + value <= ConstitutionCharacteristic.Maximum)
+                        {
+                            currentUnit.Constitution += value;
+                            currentUnit.SkillPoints -= value;
+                            RemainingPoints.Text = currentUnit.SkillPoints.ToString();
+                            return;
+                        }
+                    }
+                    textBox.Text = currentUnit.Constitution + "";
+                    break;
+                case "Dexterity":
+                    if (currentUnit.SkillPoints > 0)
+                    {
+                        if (DexterityCharacteristic.Minimum.ToString() == textBox.Text &&
+                            currentUnit.Dexterity == DexterityCharacteristic.Minimum) return;
+                        value = int.Parse(textBox.Text) - currentUnit.Dexterity;
+                        if (currentUnit.Dexterity + value >= DexterityCharacteristic.Minimum
+                            && currentUnit.Dexterity + value <= DexterityCharacteristic.Maximum)
+                        {
+                            currentUnit.Dexterity += value;
+                            currentUnit.SkillPoints -= value;
+                            RemainingPoints.Text = currentUnit.SkillPoints.ToString();
+                            return;
+                        }
+                    }
+                    textBox.Text = currentUnit.Dexterity + "";
+                    break;
+            }
+            RemainingPoints.Text = currentUnit.SkillPoints.ToString();
         }
 
         private void ChangeClass(string currentClass)
         {
-            Field[] characteristics = UnitMaker.GetCharacteristics($"{ChangeClassComboBox.SelectedValue}");
+            Field[] characteristics = UnitMaker.GetCharacteristics(currentClass);
             StrengthCharacteristic = characteristics[0];
             IntelligenceCharacteristic = characteristics[1];
             ConstitutionCharacteristic = characteristics[2];
             DexterityCharacteristic = characteristics[3];
+            RemainingPoints.Text = currentUnit.SkillPoints.ToString();
 
-            SliderStrength.Maximum = StrengthCharacteristic.Maximum;
-            SliderStrength.Minimum = StrengthCharacteristic.Minimum;
-
-            SliderIntellingence.Maximum = IntelligenceCharacteristic.Maximum;
-            SliderIntellingence.Minimum = IntelligenceCharacteristic.Minimum;
-
-            SliderConstitution.Maximum = ConstitutionCharacteristic.Maximum;
-            SliderConstitution.Minimum = ConstitutionCharacteristic.Minimum;
-
-            SliderDexterity.Maximum = DexterityCharacteristic.Maximum;
-            SliderDexterity.Minimum = DexterityCharacteristic.Minimum;
+            Strength_Text.Text = currentUnit.Strength + "";
+            Intelligence_Text.Text = currentUnit.Intelligence + "";
+            Constitution_Text.Text = currentUnit.Constitution + "";
+            Dexterity_Text.Text = currentUnit.Dexterity + "";
         }
 
-        private void SliderStrength_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void ClassChange_Checked(object sender, RoutedEventArgs e)
         {
-            TextInfoUpdate();
-            ShowFinalStats();
+            currentUnit = UnitMaker.MakeTestUnit($"{(sender as RadioButton).Content}");
+            ExperienceProgressBar.Value = currentUnit.CurrentExperience;
+            ChangeClass($"{(sender as RadioButton).Content}");
         }
 
-        private void TextInfoUpdate()
+        private void ChangeUnit_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            TextStrength.Text = (int)SliderStrength.Value + "";
-            TextIntellingence.Text = (int)SliderIntellingence.Value + "";
-            TextConstitution.Text = (int)SliderConstitution.Value + "";
-            TextDexterity.Text = (int)SliderDexterity.Value + "";
+            currentUnit = MongoExample.FindUnit($"{ChangeUnit.SelectedValue}");
+            ChangeClass(currentUnit.GetType().Name);
+            UnitsWornItemsUpdate();
+
+            InsertName.Text = currentUnit.Name;
+            foreach (var i in panelUnitClassSelection.Children)
+            {
+                if ($"{(i as RadioButton).Content}" == currentUnit.GetType().Name)
+                {
+                    (i as RadioButton).IsChecked = true;
+                    break;
+                }
+            }
+            Strength_Text.Text = currentUnit.Strength.ToString();
+            Intelligence_Text.Text = currentUnit.Intelligence.ToString();
+            Constitution_Text.Text = currentUnit.Dexterity.ToString();
+            Dexterity_Text.Text = currentUnit.Constitution.ToString();
         }
 
-        private void Save_Click(object sender, RoutedEventArgs e)
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             if (InsertName.Text != "")
             {
-                var newUnit = UnitMaker.Make(
-                            $"{ChangeClassComboBox.SelectedValue}",
-                            InsertName.Text,
-                            (int)SliderStrength.Value,
-                            (int)SliderDexterity.Value,
-                            (int)SliderConstitution.Value,
-                            (int)SliderIntellingence.Value);
-                foreach (var i in Inventory.Children)
+                currentUnit.Name = InsertName.Text;
+                /*foreach (var i in Inventory.Children)
                 {
                     var j = i as CheckBox;
                     foreach (var item in items)
@@ -94,11 +192,10 @@ namespace CreateCharWpf
                             }
                         }
                     }
-                }
-                if (MongoExample.Find(newUnit.Name) == null)
+                }*/
+                if (MongoExample.FindUnit(currentUnit.Name) == null)
                 {
-                    MongoExample.AddToDB(newUnit);
-                    ChangeUnitComboBoxUpdate();
+                    MongoExample.AddUnitTodataBase(currentUnit);
                 }
                 else
                 {
@@ -107,46 +204,106 @@ namespace CreateCharWpf
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Question) == MessageBoxResult.Yes)
                     {
-                        MongoExample.ReplaceUnit(newUnit.Name, newUnit);
+                        MongoExample.ReplaceUnit(currentUnit.Name, currentUnit);
                     }
                 }
+                ChangeUnitUpdate();
             }
-            
         }
 
-        private void ShowFinalStats()
+        private void ProgressBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            UnitProperty res = UnitMaker.TakeClassStats(
-                            $"{ChangeClassComboBox.SelectedValue}",
-                            (int)SliderStrength.Value,
-                            (int)SliderDexterity.Value,
-                            (int)SliderConstitution.Value,
-                            (int)SliderIntellingence.Value);
-            FinalStatsText.Text = res.ToString();
+            if ((sender as ProgressBar).Value == (sender as ProgressBar).Maximum)
+            {
+                if ((currentUnit.Level + 1) % 3 == 0)
+                {
+                    currentUnit.CurrentExperience = (int)(sender as ProgressBar).Value;
+                    (sender as ProgressBar).Maximum = currentUnit.PointsToNextLevel;
+                    UnitLevel.Text = $"{currentUnit.Level} lvl. {currentUnit.CurrentExperience}/{currentUnit.PointsToNextLevel}";
+                    RemainingPoints.Text = currentUnit.SkillPoints.ToString();
+                    ChooseSkill chooseSkill = new ChooseSkill();
+                    if (chooseSkill.ShowDialog() == true)
+                    {
+                    }
+                    return;
+                }
+            }
+            currentUnit.CurrentExperience = (int)(sender as ProgressBar).Value;
+            (sender as ProgressBar).Maximum = currentUnit.PointsToNextLevel;
+            UnitLevel.Text = $"{currentUnit.Level} lvl. {currentUnit.CurrentExperience}/{currentUnit.PointsToNextLevel}";
+            RemainingPoints.Text = currentUnit.SkillPoints.ToString();
+
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void IncreaseExperience_Click(object sender, RoutedEventArgs e)
+        {
+            ExperienceProgressBar.Value += Convert.ToInt32((sender as Button).Name.Split('_')[1]);
+        }
+
+        private void CreateItem_Click(object sender, RoutedEventArgs e)
         {
             CreateItemWindow createItemWindow = new CreateItemWindow();
             if (createItemWindow.ShowDialog() == true)
             {
-                var item = new Item(createItemWindow.ItemName.Text);
-                foreach (var i in items)
+                if (MongoExample.Finditem(createItemWindow.Item.ItemName) == null)
                 {
-                    if (i.ItemName == item.ItemName)
+                    MongoExample.AddItemTodataBase(createItemWindow.Item);
+                }
+                else
+                {
+                    if (MessageBox.Show("You want overwrite this item?",
+                    "Overwrite item",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question) == MessageBoxResult.Yes)
                     {
-                        return;
+                        MongoExample.ReplaceItem(createItemWindow.Item.ItemName, createItemWindow.Item);
                     }
                 }
-                items.Add(item);
-                Inventory.Children.Add(new CheckBox { Content = $"{item.ItemName}", Margin = new Thickness(10, MarginTopItem, 0, 0) });
-                MarginTopItem += 20;
+                ItemStoreUpdate();
+            }
+            foreach (var i in ItemStore.Items)
+            {
+                MessageBox.Show(i.GetType().Name);
             }
         }
 
-        private void ChangeUnitComboBoxUpdate()
+        private void ItemStoreUpdate()
         {
-            var users = MongoExample.FindAll();
+            var items = MongoExample.FindAllItems();
+            ItemStore.Items.Clear();
+            foreach (var i in items)
+            {
+                ItemStore.Items.Add(i);
+            }
+        }
+
+        private void UnitsWornItemsUpdate()
+        {
+            UnitsWornItems.Items.Clear();
+            if (currentUnit.WornItems != null)
+            {
+                foreach (var i in currentUnit.WornItems)
+                {
+                    UnitsWornItems.Items.Add(new { Item = i, Count = 1 });
+                }
+            }
+        }
+
+        private void UnitsInventoryUpdate()
+        {
+            UnitsInventory.Items.Clear();
+            if (currentUnit.Inventory != null)
+            {
+                foreach (var i in currentUnit.Inventory)
+                {
+                    UnitsInventory.Items.Add(i);
+                }
+            }
+        }
+
+        private void ChangeUnitUpdate()
+        {
+            var users = MongoExample.FindAllUnits();
             ChangeUnit.Items.Clear();
             foreach (var i in users)
             {
@@ -154,77 +311,51 @@ namespace CreateCharWpf
             }
         }
 
-        private void ChangeUnit_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ItemStore_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            var i = MongoExample.Find($"{ChangeUnit.SelectedValue}");
-            ChangeClass(i.GetType().Name);
-            InsertName.Text = i.Name;
-            ChangeClassComboBox.SelectedValue = i.GetType().Name;
-            SliderStrength.Value = i.Strength;
-            SliderIntellingence.Value = i.Intelligence;
-            SliderDexterity.Value = i.Dexterity;
-            SliderConstitution.Value = i.Constitution;
-            /*
-            if (i.Inventory != null)
-            {
-                foreach (var unitItem in i.Inventory)
-                {
-                    if (items.Count == 0)
-                    {
-                        items.Add(unitItem);
-                    }
-                    else
-                    {
-                        try
-                        {
-                            foreach (var item in items)
-                            {
-                                if (unitItem.ItemName != item.ItemName)
-                                {
-                                    items.Add(unitItem);
-                                }
-                            }
-                        }
-                        catch (InvalidOperationException invalidOperationException) { }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show(ex.Message);
-                        }
-                    }
-                }
-            }
-
-            Inventory.Children.Clear();
-            MarginTopItem = 10;
-            foreach (var item in items)
-            {
-                Inventory.Children.Add(new CheckBox { Content = $"{item.ItemName}", Margin = new Thickness(10, MarginTopItem, 0, 0) });
-                MarginTopItem += 20;
-            }
-
-            foreach (var inventoryItem in Inventory.Children)
-            {
-                var checkBoxItem = inventoryItem as CheckBox;
-                if (i.Inventory != null)
-                {
-                    foreach (var unitItem in i.Inventory)
-                    {
-                        if ($"{checkBoxItem.Content}" == unitItem.ItemName)
-                        {
-                            checkBoxItem.IsChecked = true;
-                        }
-                    }
-                }
-            }
-            */
+            var item = ((sender as ListView).SelectedItem as Item);
+            if (item != null) currentUnit.AddItemToInventory(item);
+            UnitsInventoryUpdate();
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void UnitsInventory_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            Window1 createItemWindow = new Window1();
-            if (createItemWindow.ShowDialog() == true)
+            var item = ((sender as ListView).SelectedItem);
+            if (item is CountOfItem)
             {
+                currentUnit.PutOnItem(((CountOfItem)item).Item);
             }
+            UnitsWornItemsUpdate();
+            UnitsInventoryUpdate();
+        }
+
+        private void CheckBox_Click(object sender, RoutedEventArgs e)
+        {
+            var item = UnitsInventory.SelectedItem;
+            if (item is CountOfItem)
+            {
+                if ((bool)(sender as CheckBox).IsChecked)
+                {
+                    currentUnit.PutOnItem(((CountOfItem)item).Item);
+                }
+                else
+                {
+                    currentUnit.RemoveItem(((CountOfItem)item).Item);
+                }
+            }
+            UnitsWornItemsUpdate();
+        }
+
+        private void UnitsInventory_MouseRightButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            var item = ((sender as ListView).SelectedItem);
+            if (item is CountOfItem)
+            {
+                currentUnit.LayOutItemFromInventory(((CountOfItem)item).Item);
+            }
+            UnitsWornItemsUpdate();
+            UnitsInventoryUpdate();
         }
     }
 }
+

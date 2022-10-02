@@ -1,9 +1,19 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace CreateChar
 {
+    public struct CountOfItem
+    {
+        public CountOfItem(Item item, int count)
+        {
+            Item = item;
+            Count = count;
+        }
+        public Item Item { get; set; }
+        public int Count { get; set; }
+    }
+
     [BsonKnownTypes(typeof(Wizard), typeof(Rogue), typeof(Warrior))]
     public abstract class Unit
     {
@@ -23,12 +33,20 @@ namespace CreateChar
         protected int intelligence;
 
         [BsonIgnoreIfNull]
-        public Dictionary<Item, int> Inventory { get; set; }
+        public List<CountOfItem> Inventory { get; set; }
         public List<Item> WornItems { get; set; }
         public List<Skill> UnitSkills { get; set; }
-        public string Name { get; set; }
         public UnitProperty CurrentPropertyUnit { get; set; }
-        public virtual int Strength { get; set; }
+        public string Name { get; set; }
+        public virtual int Strength 
+        { 
+            get { return strength; } 
+            set
+            {
+                strength = value;
+                LoadCapacity = strength * 200;
+            }
+        }
         public virtual int Dexterity { get; set; }
         public virtual int Constitution { get; set; }
         public virtual int Intelligence { get; set; }
@@ -58,21 +76,20 @@ namespace CreateChar
         protected Unit(string name, int strength, int dexterity, int constitution, int intelligence)
         {
             CurrentPropertyUnit = new UnitProperty();
-            PointsToNextLevel = scalePointsForNextLevel;
-            CurrentExperience = 0;
-            Level = 1;
-            SkillPoints = standartSkilloints;
+            Name = name;
             Strength = strength;
             Dexterity = dexterity;
             Constitution = constitution;
             Intelligence = intelligence;
-            LoadCapacity = Strength * 200;
-            Name = name;
-            Inventory = new Dictionary<Item, int>();
-            
+            PointsToNextLevel = scalePointsForNextLevel;
+            CurrentExperience = 0;
+            Level = 1;
+            SkillPoints = standartSkilloints;
+            Inventory = new List<CountOfItem>();
+            WornItems = new List<Item>();
         }
 
-        private int setField(int num)
+        public int setField(int num)
         {
             int res;
             if (SkillPoints - num >= 0)
@@ -90,40 +107,44 @@ namespace CreateChar
             return $"{Name}\n {this.GetType().Name} {Level}lvl. \n{CurrentPropertyUnit}";
         }
 
-        public void AddItemToInventory(Item item)
+        public bool AddItemToInventory(Item item)
         {
             var inventoryWeight = 0;
-            foreach (var i in Inventory) inventoryWeight += i.Key.ItemWeight * i.Value;
-            if (LoadCapacity >= inventoryWeight + item.ItemWeight)
+            foreach (var i in Inventory) inventoryWeight += i.Item.ItemWeight * i.Count;
+            if (LoadCapacity < inventoryWeight + item.ItemWeight) return false;
+            for (var i = 0; i < Inventory.Count; i++)
             {
-                foreach (var i in Inventory)
+                if (Inventory[i].Item.ItemName == item.ItemName)
                 {
-                    if (i.Key == item)
+                    if (Inventory[i].Item.EqualItem(item))
                     {
-                        Inventory[i.Key]++;
-                        return;
+                        Inventory[i] = new CountOfItem(Inventory[i].Item, Inventory[i].Count + 1);
                     }
+                    return Inventory[i].Item.EqualItem(item);
                 }
-                Inventory.Add(item, 1);
             }
+            Inventory.Add(new CountOfItem(item, 1));
+            return true;
         }
 
         public bool LayOutItemFromInventory(Item item)
         {
-            foreach (var i in Inventory)
+            for (var i = 0; i < Inventory.Count; i++)
             {
-                if (i.Key == item)
+                if (Inventory[i].Item.ItemName == item.ItemName)
                 {
-                    if (i.Value > 1)
+                    var numberOfItemsWorn = 0;
+                    for (var j = 0; j < WornItems.Count; j++)
                     {
-                        Inventory[i.Key]--;
-                        return true;
+                        if (Inventory[i].Item.EqualItem(WornItems[j]))
+                        {
+                            numberOfItemsWorn++;
+                        }
                     }
-                    else
-                    {
-                        Inventory.Remove(item);
-                        return true;
-                    }
+                    if (numberOfItemsWorn == Inventory[i].Count) RemoveItem(item);
+                    if (Inventory[i].Count > 1) Inventory[i] = new CountOfItem(Inventory[i].Item, Inventory[i].Count - 1); 
+                    else Inventory.RemoveAt(i);
+                    return true;
                 }
             }
             return false;
@@ -135,7 +156,7 @@ namespace CreateChar
             {
                 foreach (var i in Inventory)
                 {
-                    if (i.Key == item)
+                    if (i.Item.EqualItem(item))
                     {
                         WornItems.Add(item);
                         CurrentPropertyUnit += item.ItemPropery;
