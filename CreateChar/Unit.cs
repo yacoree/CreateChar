@@ -31,11 +31,39 @@ namespace CreateChar
         protected int dexterity;
         protected int constitution;
         protected int intelligence;
+        List<Skill> unitSkills;
 
-        [BsonIgnoreIfNull]
+       [BsonIgnoreIfNull]
         public List<CountOfItem> Inventory { get; set; }
         public List<Item> WornItems { get; set; }
-        public List<Skill> UnitSkills { get; set; }
+        public List<Skill> UnitSkills
+        {
+            get { return unitSkills; }
+            set
+            {
+                foreach(Skill skill in unitSkills)
+                {
+                    if (skill.SkillProperty != null) CurrentPropertyUnit -= skill.SkillProperty;
+                    if (skill.Strength != 0) Strength -= skill.Strength;
+                    if (skill.Dexterity != 0) Dexterity  -= skill.Dexterity;
+                    if (skill.Constitution != 0) Constitution -= skill.Constitution;
+                    if (skill.Intelligence != 0) Intelligence -= skill.Intelligence;
+                    if (skill.LoadCapacity != 0) LoadCapacity -= skill.LoadCapacity;
+                    if (skill.SkillPoints != 0) SkillPoints -= skill.SkillPoints;
+                }
+                unitSkills = value;
+                foreach (Skill skill in unitSkills)
+                {
+                    if (skill.SkillProperty != null) CurrentPropertyUnit += skill.SkillProperty;
+                    if (skill.Strength != 0) Strength += skill.Strength;
+                    if (skill.Dexterity != 0) Dexterity += skill.Dexterity;
+                    if (skill.Constitution != 0) Constitution += skill.Constitution;
+                    if (skill.Intelligence != 0) Intelligence += skill.Intelligence;
+                    if (skill.LoadCapacity != 0) LoadCapacity += skill.LoadCapacity;
+                    if (skill.SkillPoints != 0) SkillPoints += skill.SkillPoints;
+                }
+            }
+        }
         public UnitProperty CurrentPropertyUnit { get; set; }
         public string Name { get; set; }
         public virtual int Strength 
@@ -87,6 +115,7 @@ namespace CreateChar
             SkillPoints = standartSkilloints;
             Inventory = new List<CountOfItem>();
             WornItems = new List<Item>();
+            UnitSkills = new List<Skill>();
         }
 
         public int setField(int num)
