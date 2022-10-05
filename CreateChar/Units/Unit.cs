@@ -1,9 +1,11 @@
-﻿using MongoDB.Bson;
+﻿using CreateChar.Items;
+using CreateChar.PartsOfUnits;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson.Serialization.Options;
 using System.Collections.Generic;
 
-namespace CreateChar
+namespace CreateChar.Units
 {
     public struct CountOfItem
     {
@@ -91,7 +93,7 @@ namespace CreateChar
 
         public override string ToString()
         {
-            return $"{Name}\n {this.GetType().Name} {Level}lvl. \n{CurrentPropertyUnit}";
+            return $"{Name}\n {GetType().Name} {Level}lvl. \n{CurrentPropertyUnit}";
         }
 
         public bool AddItemToInventory(Item item)
@@ -99,7 +101,7 @@ namespace CreateChar
             var inventoryWeight = 0;
             foreach (var i in Inventory) inventoryWeight += i.Key.ItemWeight * i.Value;
             if (LoadCapacity < inventoryWeight + item.ItemWeight) return false;
-            foreach(var i in Inventory)
+            foreach (var i in Inventory)
             {
                 if (i.Key.ItemName == item.ItemName)
                 {

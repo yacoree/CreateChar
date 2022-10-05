@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CreateChar.PartsOfUnits;
 
-namespace CreateChar
+namespace CreateChar.Units
 {
     public class Wizard : Unit
     {
@@ -37,47 +38,43 @@ namespace CreateChar
 
         public static UnitProperty TakeUnitStats(int strength, int dexterity, int constitution, int intelligence)
         {
-            var res = strengthCharacteristic.SetPoints(strength) 
+            var res = strengthCharacteristic.SetPoints(strength)
                 + dexterityCharacteristic.SetPoints(dexterity)
-                + constitutionCharacteristic.SetPoints(constitution) 
+                + constitutionCharacteristic.SetPoints(constitution)
                 + intelligenceCharacteristic.SetPoints(intelligence);
             return res;
         }
 
         public override void SetField(string field, int value)
         {
-            int predval;
+            int predval = SkillPoints - value >= 0 ? value : SkillPoints;
             int newValue;
             switch (field)
             {
                 case "Strength":
-                    predval = SkillPoints + strength - value >= 0 ? value : SkillPoints;
-                    newValue = StrengthCharacteristic.SetFieldValue(predval);
-                    CurrentPropertyUnit += StrengthCharacteristic.SetUnitPropertydValue(strength, predval);
-                    SkillPoints += strength - newValue;
-                    strength = newValue;
-                    LoadCapacity = strength * 500;
+                    newValue = StrengthCharacteristic.SetFieldValue(Strength + predval);
+                    CurrentPropertyUnit += StrengthCharacteristic.SetUnitPropertydValue(Strength, predval + Strength);
+                    SkillPoints += Strength - newValue;
+                    Strength = newValue;
+                    LoadCapacity = Strength * 500;
                     break;
                 case "Constitution":
-                    predval = SkillPoints + constitution - value >= 0 ? value : SkillPoints;
-                    newValue = constitutionCharacteristic.SetFieldValue(predval);
-                    CurrentPropertyUnit += constitutionCharacteristic.SetUnitPropertydValue(constitution, predval);
-                    SkillPoints += constitution - newValue;
-                    constitution = newValue;
+                    newValue = constitutionCharacteristic.SetFieldValue(Constitution + predval);
+                    CurrentPropertyUnit += constitutionCharacteristic.SetUnitPropertydValue(Constitution, predval + Constitution);
+                    SkillPoints += Constitution - newValue;
+                    Constitution = newValue;
                     break;
                 case "Dexterity":
-                    predval = SkillPoints + dexterity - value >= 0 ? value : SkillPoints;
-                    newValue = dexterityCharacteristic.SetFieldValue(predval);
-                    CurrentPropertyUnit += dexterityCharacteristic.SetUnitPropertydValue(dexterity, predval);
-                    SkillPoints += dexterity - newValue;
-                    dexterity = newValue;
+                    newValue = dexterityCharacteristic.SetFieldValue(Dexterity + predval);
+                    CurrentPropertyUnit += dexterityCharacteristic.SetUnitPropertydValue(Dexterity, predval + Dexterity);
+                    SkillPoints += Dexterity - newValue;
+                    Dexterity = newValue;
                     break;
                 case "Intelligence":
-                    predval = SkillPoints + intelligence - value >= 0 ? value : SkillPoints;
-                    newValue = intelligenceCharacteristic.SetFieldValue(predval);
-                    CurrentPropertyUnit += intelligenceCharacteristic.SetUnitPropertydValue(intelligence, predval);
-                    SkillPoints += intelligence - newValue;
-                    intelligence = newValue;
+                    newValue = intelligenceCharacteristic.SetFieldValue(Intelligence + predval);
+                    CurrentPropertyUnit += intelligenceCharacteristic.SetUnitPropertydValue(Intelligence, predval + Intelligence);
+                    SkillPoints += Intelligence - newValue;
+                    Intelligence = newValue;
                     break;
             }
         }

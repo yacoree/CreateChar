@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CreateChar
+namespace CreateChar.PartsOfUnits
 {
     public class Skill
     {
@@ -32,7 +32,7 @@ namespace CreateChar
 
         public override string ToString()
         {
-            string res = $"{SkillName}: \n" ;
+            string res = $"{SkillName}: \n";
             if (SkillProperty != null) res += $"{SkillProperty}";
             if (Strength != 0) res += $"Strenght - {Strength}\n";
             if (Dexterity != 0) res += $"Dexterity - {Dexterity}\n";
