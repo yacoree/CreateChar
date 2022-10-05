@@ -1,4 +1,7 @@
-﻿using CreateChar;
+﻿using CreateChar.Items;
+using CreateChar.Mongo;
+using CreateChar.PartsOfUnits;
+using CreateChar.Units;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -20,6 +23,7 @@ namespace CreateCharWpf
         Field IntelligenceCharacteristic;
         List<Item> items;
         Unit currentUnit;
+        bool BDUser;
 
         public Window1()
         {
@@ -61,7 +65,7 @@ namespace CreateCharWpf
 
         private void ClassChange_Checked(object sender, RoutedEventArgs e)
         {
-            currentUnit = UnitMaker.MakeTestUnit((sender as RadioButton).Content.ToString());
+            if (!BDUser) currentUnit = UnitMaker.MakeTestUnit((sender as RadioButton).Content.ToString());
             ExperienceProgressBar.Value = currentUnit.CurrentExperience;
             FullUpdateWindow();
         }
@@ -69,7 +73,7 @@ namespace CreateCharWpf
         private void ChangeUnit_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             currentUnit = MongoExample.FindUnit($"{ChangeUnit.SelectedValue}");
-            FullUpdateWindow();
+            BDUser = true;
             InsertName.Text = currentUnit.Name;
             foreach (var i in panelUnitClassSelection.Children)
             {
@@ -79,7 +83,7 @@ namespace CreateCharWpf
                     break;
                 }
             }
-            
+            BDUser = false;
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
@@ -215,8 +219,6 @@ namespace CreateCharWpf
         private void FullUpdateWindow()
         {
             UnitsWornItemsUpdate();
-            UnitsWornItemsUpdate();
-            ChangeUnitUpdate();
             TextCharacteristicUpdate();
         }
 

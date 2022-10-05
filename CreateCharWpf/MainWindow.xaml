@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:CreateCharWpf"
         xmlns:col="clr-namespace:System.Collections;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="Window1" Height="500" Width="800" MinWidth="800" MinHeight="450">
+        Title="Window1" Height="500" Width="800" MinWidth="800" MinHeight="500" MaxHeight="500" MaxWidth="800">
 
     <Grid>
         <Grid.RowDefinitions>

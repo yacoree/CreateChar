@@ -1,6 +1,8 @@
 ﻿using MongoDB.Driver;
+using CreateChar.Items;
+using CreateChar.Units;
 
-namespace CreateChar
+namespace CreateChar.Mongo
 {
     public static class MongoExample
     {
