@@ -18,7 +18,7 @@ namespace CreateChar
             physicalAttack = 30,
             magicalAttack = 0
         */
-
+        //private static Field Field = new Field { Minimum = 10, Maximum = 20, Property = new UnitProperty { } }
         private static Field strengthCharacteristic = new Field(15, 55, 0, 10, 0, 20, 0);
         private static Field dexterityCharacteristic = new Field(30, 260, 15, 0, 0, 40, 0);
         private static Field constitutionCharacteristic = new Field(20, 80, 0, 60, 0, 0, 0);
@@ -29,118 +29,6 @@ namespace CreateChar
         public static Field ConstitutionCharacteristic { get => constitutionCharacteristic; }
         public static Field IntelligenceCharacteristic { get => intelligenceCharacteristic; }
 
-        public override int Strength
-        {
-            get { return strength; }
-            set
-            {
-                if (value >= strengthCharacteristic.Minimum)
-                {
-                    if (value <= strengthCharacteristic.Maximum)
-                    {
-                        CurrentPropertyUnit -= strengthCharacteristic.AddPoints(strength);
-                        CurrentPropertyUnit += strengthCharacteristic.AddPoints(value);
-                        strength = value;
-                    }
-                    else
-                    {
-                        CurrentPropertyUnit -= strengthCharacteristic.AddPoints(strength);
-                        CurrentPropertyUnit += strengthCharacteristic.AddPoints(strengthCharacteristic.Maximum);
-                        strength = strengthCharacteristic.Maximum;
-                    }
-                }
-                else
-                {
-                    CurrentPropertyUnit -= strengthCharacteristic.AddPoints(strength);
-                    CurrentPropertyUnit += strengthCharacteristic.AddPoints(strengthCharacteristic.Minimum);
-                    strength = strengthCharacteristic.Minimum;
-                }
-            }
-        }
-        public override int Constitution
-        {
-            get { return constitution; }
-            set
-            {
-                if (value >= constitutionCharacteristic.Minimum)
-                {
-                    if (value <= constitutionCharacteristic.Maximum)
-                    {
-                        CurrentPropertyUnit -= constitutionCharacteristic.AddPoints(constitution);
-                        CurrentPropertyUnit += constitutionCharacteristic.AddPoints(value);
-                        constitution = value;
-                    }
-                    else
-                    {
-                        CurrentPropertyUnit -= constitutionCharacteristic.AddPoints(constitution);
-                        CurrentPropertyUnit += constitutionCharacteristic.AddPoints(constitutionCharacteristic.Maximum);
-                        constitution = constitutionCharacteristic.Maximum;
-                    }
-                }
-                else
-                {
-                    CurrentPropertyUnit -= constitutionCharacteristic.AddPoints(constitution);
-                    CurrentPropertyUnit += constitutionCharacteristic.AddPoints(constitutionCharacteristic.Minimum);
-                    constitution = constitutionCharacteristic.Minimum;
-                }
-            }
-        }
-        public override int Dexterity
-        {
-            get { return dexterity; }
-            set
-            {
-                if (value >= dexterityCharacteristic.Minimum)
-                {
-                    if (value <= dexterityCharacteristic.Maximum)
-                    {
-                        CurrentPropertyUnit -= dexterityCharacteristic.AddPoints(dexterity);
-                        CurrentPropertyUnit += dexterityCharacteristic.AddPoints(value);
-                        dexterity = value;
-                    }
-                    else
-                    {
-                        CurrentPropertyUnit -= dexterityCharacteristic.AddPoints(dexterity);
-                        CurrentPropertyUnit += dexterityCharacteristic.AddPoints(dexterityCharacteristic.Maximum);
-                        dexterity = dexterityCharacteristic.Maximum;
-                    }
-                }
-                else
-                {
-                    CurrentPropertyUnit -= dexterityCharacteristic.AddPoints(dexterity);
-                    CurrentPropertyUnit += dexterityCharacteristic.AddPoints(dexterityCharacteristic.Minimum);
-                    dexterity = dexterityCharacteristic.Minimum;
-                }
-            }
-        }
-        public override int Intelligence
-        {
-            get { return intelligence; }
-            set
-            {
-                if (value >= intelligenceCharacteristic.Minimum)
-                {
-                    if (value <= intelligenceCharacteristic.Maximum)
-                    {
-                        CurrentPropertyUnit -= intelligenceCharacteristic.AddPoints(intelligence);
-                        CurrentPropertyUnit += intelligenceCharacteristic.AddPoints(value);
-                        intelligence = value;
-                    }
-                    else
-                    {
-                        CurrentPropertyUnit -= intelligenceCharacteristic.AddPoints(intelligence);
-                        CurrentPropertyUnit += intelligenceCharacteristic.AddPoints(intelligenceCharacteristic.Maximum);
-                        intelligence = intelligenceCharacteristic.Maximum;
-                    }
-                }
-                else
-                {
-                    CurrentPropertyUnit -= intelligenceCharacteristic.AddPoints(intelligence);
-                    CurrentPropertyUnit += intelligenceCharacteristic.AddPoints(intelligenceCharacteristic.Minimum);
-                    intelligence = intelligenceCharacteristic.Minimum;
-                }
-            }
-        }
 
         public Rogue(string name, int strength, int dexterity, int constitution, int intelligence) :
             base(name, strength, dexterity, constitution, intelligence)
@@ -155,6 +43,44 @@ namespace CreateChar
                 + constitutionCharacteristic.SetPoints(constitution)
                 + intelligenceCharacteristic.SetPoints(intelligence);
             return res;
+        }
+
+        public override void SetField(string field, int value)
+        {
+            int predval;
+            int newValue;
+            switch (field)
+            {
+                case "Strength":
+                    predval = SkillPoints + strength - value >= 0 ? value : SkillPoints;
+                    newValue = StrengthCharacteristic.SetFieldValue(predval);
+                    CurrentPropertyUnit += StrengthCharacteristic.SetUnitPropertydValue(strength, predval);
+                    SkillPoints += strength - newValue;
+                    strength = newValue;
+                    LoadCapacity = strength * 500;
+                    break;
+                case "Constitution":
+                    predval = SkillPoints + constitution - value >= 0 ? value : SkillPoints;
+                    newValue = constitutionCharacteristic.SetFieldValue(predval);
+                    CurrentPropertyUnit += constitutionCharacteristic.SetUnitPropertydValue(constitution, predval);
+                    SkillPoints += constitution - newValue;
+                    constitution = newValue;
+                    break;
+                case "Dexterity":
+                    predval = SkillPoints + dexterity - value >= 0 ? value : SkillPoints;
+                    newValue = dexterityCharacteristic.SetFieldValue(predval);
+                    CurrentPropertyUnit += dexterityCharacteristic.SetUnitPropertydValue(dexterity, predval);
+                    SkillPoints += dexterity - newValue;
+                    dexterity = newValue;
+                    break;
+                case "Intelligence":
+                    predval = SkillPoints + intelligence - value >= 0 ? value : SkillPoints;
+                    newValue = intelligenceCharacteristic.SetFieldValue(predval);
+                    CurrentPropertyUnit += intelligenceCharacteristic.SetUnitPropertydValue(intelligence, predval);
+                    SkillPoints += intelligence - newValue;
+                    intelligence = newValue;
+                    break;
+            }
         }
     }
 }
