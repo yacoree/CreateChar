@@ -62,19 +62,30 @@ namespace CreateChar
             switch (pieceCode)
             {
                 case UnitsClasses.Rogue:
-                    unit = new Rogue("", 0, 0, 0, 0);
+                    unit = new Rogue("", 
+                        Rogue.StrengthCharacteristic.Minimum,
+                        Rogue.DexterityCharacteristic.Minimum, 
+                        Rogue.ConstitutionCharacteristic.Minimum,
+                        Rogue.IntelligenceCharacteristic.Minimum);
                     break;
                 case UnitsClasses.Warrior:
-                    unit = new Warrior("", 0, 0, 0, 0);
+                    unit = new Warrior("",
+                        Warrior.StrengthCharacteristic.Minimum,
+                        Warrior.DexterityCharacteristic.Minimum,
+                        Warrior.ConstitutionCharacteristic.Minimum,
+                        Warrior.IntelligenceCharacteristic.Minimum);
                     break;
                 case UnitsClasses.Wizard:
-                    unit = new Wizard("", 0, 0, 0, 0);
+                    unit = new Wizard("",
+                        Wizard.StrengthCharacteristic.Minimum,
+                        Wizard.DexterityCharacteristic.Minimum,
+                        Wizard.ConstitutionCharacteristic.Minimum,
+                        Wizard.IntelligenceCharacteristic.Minimum);
                     break;
 
                 default:
                     throw new Exception("Unknown unit's class");
             }
-
             return unit;
         }
 

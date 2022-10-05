@@ -41,5 +41,31 @@ namespace CreateChar
         {
             return Property * points;
         }
+
+        public int SetFieldValue(int newValue)
+        {
+            if (newValue >= Minimum)
+            {
+                if (newValue <= Maximum)
+                {
+                    return newValue;
+                }
+                return Maximum;
+            }
+            return Minimum;
+        }
+
+        public UnitProperty SetUnitPropertydValue(int oldValue, int newValue)
+        {
+            if (newValue >= Minimum)
+            {
+                if (newValue <= Maximum)
+                {
+                    return AddPoints(newValue);
+                }
+                return AddPoints(Maximum - oldValue);
+            }
+            return AddPoints(Minimum - oldValue);
+        }
     }
 }

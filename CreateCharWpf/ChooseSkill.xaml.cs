@@ -12,7 +12,7 @@ namespace CreateCharWpf
     public partial class ChooseSkill : Window
     {
         List<Skill> skills;
-        Skill chooseSkill;
+        public Skill chooseSkill;
         public ChooseSkill()
         {
             InitializeComponent();

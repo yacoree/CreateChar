@@ -1,5 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson.Serialization.Options;
+using System.Collections.Generic;
 
 namespace CreateChar
 {
@@ -31,50 +33,17 @@ namespace CreateChar
         protected int dexterity;
         protected int constitution;
         protected int intelligence;
-        List<Skill> unitSkills;
 
-       [BsonIgnoreIfNull]
-        public List<CountOfItem> Inventory { get; set; }
+        [BsonIgnoreIfNull]
+        [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
+        public Dictionary<Item, int> Inventory { get; set; }
+        [BsonIgnoreIfNull]
         public List<Item> WornItems { get; set; }
-        public List<Skill> UnitSkills
-        {
-            get { return unitSkills; }
-            set
-            {
-                foreach(Skill skill in unitSkills)
-                {
-                    if (skill.SkillProperty != null) CurrentPropertyUnit -= skill.SkillProperty;
-                    if (skill.Strength != 0) Strength -= skill.Strength;
-                    if (skill.Dexterity != 0) Dexterity  -= skill.Dexterity;
-                    if (skill.Constitution != 0) Constitution -= skill.Constitution;
-                    if (skill.Intelligence != 0) Intelligence -= skill.Intelligence;
-                    if (skill.LoadCapacity != 0) LoadCapacity -= skill.LoadCapacity;
-                    if (skill.SkillPoints != 0) SkillPoints -= skill.SkillPoints;
-                }
-                unitSkills = value;
-                foreach (Skill skill in unitSkills)
-                {
-                    if (skill.SkillProperty != null) CurrentPropertyUnit += skill.SkillProperty;
-                    if (skill.Strength != 0) Strength += skill.Strength;
-                    if (skill.Dexterity != 0) Dexterity += skill.Dexterity;
-                    if (skill.Constitution != 0) Constitution += skill.Constitution;
-                    if (skill.Intelligence != 0) Intelligence += skill.Intelligence;
-                    if (skill.LoadCapacity != 0) LoadCapacity += skill.LoadCapacity;
-                    if (skill.SkillPoints != 0) SkillPoints += skill.SkillPoints;
-                }
-            }
-        }
+        [BsonIgnoreIfNull]
+        public List<Skill> UnitSkills { get; set; }
         public UnitProperty CurrentPropertyUnit { get; set; }
         public string Name { get; set; }
-        public virtual int Strength 
-        { 
-            get { return strength; } 
-            set
-            {
-                strength = value;
-                LoadCapacity = strength * 200;
-            }
-        }
+        public virtual int Strength { get; set; }
         public virtual int Dexterity { get; set; }
         public virtual int Constitution { get; set; }
         public virtual int Intelligence { get; set; }
@@ -113,23 +82,12 @@ namespace CreateChar
             CurrentExperience = 0;
             Level = 1;
             SkillPoints = standartSkilloints;
-            Inventory = new List<CountOfItem>();
+            Inventory = new Dictionary<Item, int>();
             WornItems = new List<Item>();
             UnitSkills = new List<Skill>();
         }
 
-        public int setField(int num)
-        {
-            int res;
-            if (SkillPoints - num >= 0)
-            {
-                SkillPoints -= num;
-                return num;
-            }
-            res = SkillPoints;
-            SkillPoints = 0;
-            return res;
-        }
+        public abstract void SetField(string field, int num);
 
         public override string ToString()
         {
@@ -139,40 +97,40 @@ namespace CreateChar
         public bool AddItemToInventory(Item item)
         {
             var inventoryWeight = 0;
-            foreach (var i in Inventory) inventoryWeight += i.Item.ItemWeight * i.Count;
+            foreach (var i in Inventory) inventoryWeight += i.Key.ItemWeight * i.Value;
             if (LoadCapacity < inventoryWeight + item.ItemWeight) return false;
-            for (var i = 0; i < Inventory.Count; i++)
+            foreach(var i in Inventory)
             {
-                if (Inventory[i].Item.ItemName == item.ItemName)
+                if (i.Key.ItemName == item.ItemName)
                 {
-                    if (Inventory[i].Item.EqualItem(item))
+                    if (i.Key.EqualItem(item))
                     {
-                        Inventory[i] = new CountOfItem(Inventory[i].Item, Inventory[i].Count + 1);
+                        Inventory[i.Key]++;
                     }
-                    return Inventory[i].Item.EqualItem(item);
+                    return i.Key.EqualItem(item);
                 }
             }
-            Inventory.Add(new CountOfItem(item, 1));
+            Inventory.Add(item, 1);
             return true;
         }
 
         public bool LayOutItemFromInventory(Item item)
         {
-            for (var i = 0; i < Inventory.Count; i++)
+            foreach (var i in Inventory)
             {
-                if (Inventory[i].Item.ItemName == item.ItemName)
+                if (i.Key.ItemName == item.ItemName)
                 {
                     var numberOfItemsWorn = 0;
-                    for (var j = 0; j < WornItems.Count; j++)
+                    foreach (var j in WornItems)
                     {
-                        if (Inventory[i].Item.EqualItem(WornItems[j]))
+                        if (i.Key.EqualItem(j))
                         {
                             numberOfItemsWorn++;
                         }
                     }
-                    if (numberOfItemsWorn == Inventory[i].Count) RemoveItem(item);
-                    if (Inventory[i].Count > 1) Inventory[i] = new CountOfItem(Inventory[i].Item, Inventory[i].Count - 1); 
-                    else Inventory.RemoveAt(i);
+                    if (numberOfItemsWorn == i.Value) RemoveItem(item);
+                    if (i.Value > 1) Inventory[i.Key]--;
+                    else Inventory.Remove(i.Key);
                     return true;
                 }
             }
@@ -185,7 +143,7 @@ namespace CreateChar
             {
                 foreach (var i in Inventory)
                 {
-                    if (i.Item.EqualItem(item))
+                    if (i.Key.EqualItem(item))
                     {
                         WornItems.Add(item);
                         CurrentPropertyUnit += item.ItemPropery;
@@ -199,6 +157,31 @@ namespace CreateChar
         public void RemoveItem(Item item)
         {
             if (WornItems.Remove(item)) CurrentPropertyUnit -= item.ItemPropery;
+        }
+
+        public void AddSkill(Skill newSkill)
+        {
+            foreach (Skill skill in UnitSkills)
+            {
+                if (skill.SkillProperty != null) CurrentPropertyUnit -= skill.SkillProperty;
+                if (skill.Strength != 0) Strength -= skill.Strength;
+                if (skill.Dexterity != 0) Dexterity -= skill.Dexterity;
+                if (skill.Constitution != 0) Constitution -= skill.Constitution;
+                if (skill.Intelligence != 0) Intelligence -= skill.Intelligence;
+                if (skill.LoadCapacity != 0) LoadCapacity -= skill.LoadCapacity;
+                if (skill.SkillPoints != 0) SkillPoints -= skill.SkillPoints;
+            }
+            UnitSkills.Add(newSkill);
+            foreach (Skill skill in UnitSkills)
+            {
+                if (skill.SkillProperty != null) CurrentPropertyUnit += skill.SkillProperty;
+                if (skill.Strength != 0) Strength += skill.Strength;
+                if (skill.Dexterity != 0) Dexterity += skill.Dexterity;
+                if (skill.Constitution != 0) Constitution += skill.Constitution;
+                if (skill.Intelligence != 0) Intelligence += skill.Intelligence;
+                if (skill.LoadCapacity != 0) LoadCapacity += skill.LoadCapacity;
+                if (skill.SkillPoints != 0) SkillPoints += skill.SkillPoints;
+            }
         }
     }
 }
