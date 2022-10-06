@@ -20,7 +20,7 @@ namespace CreateChar.Units
             magicalAttack = 0
         */
         //private static Field Field = new Field { Minimum = 10, Maximum = 20, Property = new UnitProperty { } }
-        private static Field strengthCharacteristic = new Field(15, 55, 0, 10, 0, 20, 0);
+        private static Field strengthCharacteristic = new Field(15, 65, 0, 10, 0, 20, 0);
         private static Field dexterityCharacteristic = new Field(30, 260, 15, 0, 0, 40, 0);
         private static Field constitutionCharacteristic = new Field(20, 80, 0, 60, 0, 0, 0);
         private static Field intelligenceCharacteristic = new Field(15, 70, 0, 0, 15, 0, 20);

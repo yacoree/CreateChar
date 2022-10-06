@@ -122,6 +122,11 @@
                         <Button x:Name="IncreaseExperience_1000" Grid.Row="4" Grid.Column="2" Content="+1000" Margin="3, 3, 3, 3" Background="#FF68ED4D" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Click="IncreaseExperience_Click"/>
                     </Grid>
 
+                    <Grid Grid.Row="1" Grid.Column="2">
+                        <Button x:Name="SaveButton" Content="Save" Click="SaveButton_Click" Margin="86,281,86,10"/>
+                    </Grid>
+                    
+                    
                     <Grid Grid.Column="4" Grid.Row="2" Margin="10,10,10,10">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="30"/>
@@ -175,7 +180,7 @@
                             </ListView.View>
                         </ListView>
 
-                        <Button Grid.Row="4" Width="100" Content="Create" Click="CreateItem_Click"/>
+                        <Button Grid.Row="4" Width="100" Content="Create" Click="CreateItem_Click" Visibility="Hidden"/>
                     </Grid>
 
                     <Grid Grid.Column="1" Grid.Row="0" Margin="10, 10, 10, 10">
@@ -213,6 +218,6 @@
             </TabItem>
         </TabControl>
 
-        <Button x:Name="SaveButton" Grid.Column="1" Grid.Row="2" Content="Save" Click="SaveButton_Click"/>
+        
     </Grid>
 </Window>

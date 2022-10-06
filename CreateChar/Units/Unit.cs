@@ -83,6 +83,7 @@ namespace CreateChar.Units
             PointsToNextLevel = scalePointsForNextLevel;
             CurrentExperience = 0;
             Level = 1;
+            LoadCapacity = 500 * Strength;
             SkillPoints = standartSkilloints;
             Inventory = new Dictionary<Item, int>();
             WornItems = new List<Item>();
