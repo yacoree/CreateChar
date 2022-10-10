@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CreateChar
+namespace CreateChar.PartsOfUnits
 {
     public class UnitProperty
     {
@@ -23,11 +23,11 @@ namespace CreateChar
             MagicalAttack = magicalAttack;
         }
 
-        public UnitProperty() 
+        public UnitProperty()
         {
             physicalProtection = 0;
             healthPoint = 0;
-            manaPool = 0 ;
+            manaPool = 0;
             physicalAttack = 0;
             magicalAttack = 0;
         }
@@ -41,14 +41,14 @@ namespace CreateChar
         public UnitProperty Increase(UnitProperty unitProperty)
         {
             UnitProperty returned = new UnitProperty();
-            returned.HealthPoint = this.HealthPoint + unitProperty.HealthPoint;
-            returned.PhysicalProtection = this.PhysicalProtection + unitProperty.PhysicalProtection;
-            returned.ManaPool = this.ManaPool + unitProperty.ManaPool;
-            returned.PhysicalAttack = this.PhysicalAttack + unitProperty.PhysicalAttack;
-            returned.MagicalAttack = this.MagicalAttack + unitProperty.MagicalAttack;
+            returned.HealthPoint = HealthPoint + unitProperty.HealthPoint;
+            returned.PhysicalProtection = PhysicalProtection + unitProperty.PhysicalProtection;
+            returned.ManaPool = ManaPool + unitProperty.ManaPool;
+            returned.PhysicalAttack = PhysicalAttack + unitProperty.PhysicalAttack;
+            returned.MagicalAttack = MagicalAttack + unitProperty.MagicalAttack;
             return returned;
         }
-        
+
 
         public static UnitProperty operator +(UnitProperty leftP, UnitProperty rightP)
         {
@@ -58,27 +58,27 @@ namespace CreateChar
         public UnitProperty Subtraction(UnitProperty unitProperty)
         {
             UnitProperty returned = new UnitProperty();
-            returned.HealthPoint = this.HealthPoint - unitProperty.HealthPoint;
-            returned.PhysicalProtection = this.PhysicalProtection - unitProperty.PhysicalProtection;
-            returned.ManaPool = this.ManaPool - unitProperty.ManaPool;
-            returned.PhysicalAttack = this.PhysicalAttack - unitProperty.PhysicalAttack;
-            returned.MagicalAttack = this.MagicalAttack - unitProperty.MagicalAttack;
+            returned.HealthPoint = HealthPoint - unitProperty.HealthPoint;
+            returned.PhysicalProtection = PhysicalProtection - unitProperty.PhysicalProtection;
+            returned.ManaPool = ManaPool - unitProperty.ManaPool;
+            returned.PhysicalAttack = PhysicalAttack - unitProperty.PhysicalAttack;
+            returned.MagicalAttack = MagicalAttack - unitProperty.MagicalAttack;
             return returned;
         }
 
         public static UnitProperty operator -(UnitProperty leftP, UnitProperty rightP)
         {
-            return (leftP != null) ?leftP.Subtraction(rightP): new UnitProperty();
+            return leftP != null ? leftP.Subtraction(rightP) : new UnitProperty();
         }
 
         public UnitProperty Multiply(int num)
         {
             UnitProperty returned = new UnitProperty();
-            returned.HealthPoint = this.HealthPoint * num;
-            returned.PhysicalProtection = this.PhysicalProtection * num;
-            returned.ManaPool = this.ManaPool * num;
-            returned.PhysicalAttack = this.PhysicalAttack * num;
-            returned.MagicalAttack = this.MagicalAttack * num;
+            returned.HealthPoint = HealthPoint * num;
+            returned.PhysicalProtection = PhysicalProtection * num;
+            returned.ManaPool = ManaPool * num;
+            returned.PhysicalAttack = PhysicalAttack * num;
+            returned.MagicalAttack = MagicalAttack * num;
             return returned;
         }
 

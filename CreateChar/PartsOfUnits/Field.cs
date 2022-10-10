@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CreateChar
+namespace CreateChar.PartsOfUnits
 {
     public class Field
     {
@@ -15,7 +15,7 @@ namespace CreateChar
             Property = property;
         }
 
-        public Field(int minimum, int maximum, int physicalProtection, int healthPoint, 
+        public Field(int minimum, int maximum, int physicalProtection, int healthPoint,
             int manaPool, int physicalAttack, int magicalAttack)
         {
             Minimum = minimum;
@@ -33,13 +33,39 @@ namespace CreateChar
             {
                 if (points <= Maximum) return Property * points;
                 else return Property * Maximum;
-            } 
+            }
             return Property * Minimum;
         }
 
         public UnitProperty AddPoints(int points)
         {
             return Property * points;
+        }
+
+        public int SetFieldValue(int newValue)
+        {
+            if (newValue >= Minimum)
+            {
+                if (newValue <= Maximum)
+                {
+                    return newValue;
+                }
+                return Maximum;
+            }
+            return Minimum;
+        }
+
+        public UnitProperty SetUnitPropertydValue(int oldValue, int newValue)
+        {
+            if (newValue >= Minimum)
+            {
+                if (newValue <= Maximum)
+                {
+                    return AddPoints(newValue);
+                }
+                return AddPoints(Maximum - oldValue);
+            }
+            return AddPoints(Minimum - oldValue);
         }
     }
 }

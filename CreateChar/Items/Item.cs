@@ -1,13 +1,8 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
-using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using CreateChar.PartsOfUnits;
 
-namespace CreateChar
+namespace CreateChar.Items
 {
     public class Item
     {
@@ -38,9 +33,9 @@ namespace CreateChar
         public bool EqualItem(Item comparedItem)
         {
             if (comparedItem == null) return false;
-            if (comparedItem.ItemName != this.ItemName) return false;
-            if (comparedItem.ItemWeight != this.ItemWeight) return false;
-            if ($"{comparedItem.ItemPropery}" != $"{this.ItemPropery}") return false;
+            if (comparedItem.ItemName != ItemName) return false;
+            if (comparedItem.ItemWeight != ItemWeight) return false;
+            if ($"{comparedItem.ItemPropery}" != $"{ItemPropery}") return false;
             return true;
         }
     }

@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.NetworkInformation;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+﻿
+using CreateChar.PartsOfUnits;
 
-namespace CreateChar
+namespace CreateChar.Units
 {
     public enum UnitsClasses
     {
@@ -20,7 +14,7 @@ namespace CreateChar
     {
         private static readonly Dictionary<string, UnitsClasses> unitClassCode;
 
-        public static Dictionary<string, UnitsClasses> UnitClassCode { get => unitClassCode; } 
+        public static Dictionary<string, UnitsClasses> UnitClassCode { get => unitClassCode; }
 
         static UnitMaker()
         {
@@ -62,19 +56,30 @@ namespace CreateChar
             switch (pieceCode)
             {
                 case UnitsClasses.Rogue:
-                    unit = new Rogue("", 0, 0, 0, 0);
+                    unit = new Rogue("",
+                        Rogue.StrengthCharacteristic.Minimum,
+                        Rogue.DexterityCharacteristic.Minimum,
+                        Rogue.ConstitutionCharacteristic.Minimum,
+                        Rogue.IntelligenceCharacteristic.Minimum);
                     break;
                 case UnitsClasses.Warrior:
-                    unit = new Warrior("", 0, 0, 0, 0);
+                    unit = new Warrior("",
+                        Warrior.StrengthCharacteristic.Minimum,
+                        Warrior.DexterityCharacteristic.Minimum,
+                        Warrior.ConstitutionCharacteristic.Minimum,
+                        Warrior.IntelligenceCharacteristic.Minimum);
                     break;
                 case UnitsClasses.Wizard:
-                    unit = new Wizard("", 0, 0, 0, 0);
+                    unit = new Wizard("",
+                        Wizard.StrengthCharacteristic.Minimum,
+                        Wizard.DexterityCharacteristic.Minimum,
+                        Wizard.ConstitutionCharacteristic.Minimum,
+                        Wizard.IntelligenceCharacteristic.Minimum);
                     break;
 
                 default:
                     throw new Exception("Unknown unit's class");
             }
-
             return unit;
         }
 
@@ -110,7 +115,7 @@ namespace CreateChar
 
             return property;
         }
-        
+
         static public UnitProperty TakeClassStats(string unitClass, int strength, int dexterity, int constitution, int intelligence)
         {
             return TakeClassStats(UnitClassCode[unitClass], strength, dexterity, constitution, intelligence);
@@ -121,28 +126,28 @@ namespace CreateChar
             switch (pieceCode)
             {
                 case UnitsClasses.Rogue:
-                    return new Field[] 
-                    { 
-                        Rogue.StrengthCharacteristic, 
-                        Rogue.IntelligenceCharacteristic, 
+                    return new Field[]
+                    {
+                        Rogue.StrengthCharacteristic,
+                        Rogue.IntelligenceCharacteristic,
                         Rogue.ConstitutionCharacteristic,
-                        Rogue.DexterityCharacteristic 
+                        Rogue.DexterityCharacteristic
                     };
                 case UnitsClasses.Warrior:
-                    return new Field[] 
+                    return new Field[]
                     {
                         Warrior.StrengthCharacteristic,
                         Warrior.IntelligenceCharacteristic,
                         Warrior.ConstitutionCharacteristic,
-                        Warrior.DexterityCharacteristic 
+                        Warrior.DexterityCharacteristic
                     };
                 case UnitsClasses.Wizard:
-                    return new Field[] 
+                    return new Field[]
                     {
                         Wizard.StrengthCharacteristic,
                         Wizard.IntelligenceCharacteristic,
                         Wizard.ConstitutionCharacteristic,
-                        Wizard.DexterityCharacteristic 
+                        Wizard.DexterityCharacteristic
                     };
 
                 default:

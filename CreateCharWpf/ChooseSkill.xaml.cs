@@ -1,4 +1,4 @@
-﻿using CreateChar;
+﻿using CreateChar.PartsOfUnits;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -12,7 +12,7 @@ namespace CreateCharWpf
     public partial class ChooseSkill : Window
     {
         List<Skill> skills;
-        Skill chooseSkill;
+        public Skill chooseSkill;
         public ChooseSkill()
         {
             InitializeComponent();
@@ -30,14 +30,14 @@ namespace CreateCharWpf
             skill.SkillProperty.PhysicalProtection = 20;
             skills.Add(skill);
 
-            skill = new Skill("Legeng");
+            skill = new Skill("Legend");
             skill.Strength = 5;
             skill.Dexterity = 5;
             skill.Constitution = 5;
             skill.Intelligence = 5;
             skills.Add(skill);
 
-            skill = new Skill("No longer a man");
+            skill = new Skill("No longer human");
             skill.SkillPoints = 10;
             skills.Add(skill);
 

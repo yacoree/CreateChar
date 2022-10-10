@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:CreateCharWpf"
         xmlns:col="clr-namespace:System.Collections;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="Window1" Height="500" Width="800" MinWidth="800" MinHeight="450">
+        Title="Window1" Height="500" Width="800" MinWidth="800" MinHeight="500" MaxHeight="500" MaxWidth="800">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -71,17 +71,17 @@
                         <Button x:Name="Dexterity_Button_Down" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center"  Margin="0, 20, 10, 0" Width="20" Height="15" Background="#FFE5E5E5" Click="ChangeValueButton_Click"/>
                         <Button x:Name="Dexterity_Button_Up" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0, 0, 10, 20" Width="20" Height="15" Background="#FFE5E5E5" Click="ChangeValueButton_Click"/>
 
-                        <TextBlock Grid.Row="4" Text="Constitution" Margin="10, 3, 0, 0"  VerticalAlignment="Top" FontFamily="Bahnschrift SemiBold" HorizontalAlignment="Left"/>
+                        <TextBlock Grid.Row="4" Text="Constitution" Margin="10, 3, 0, 0"  VerticalAlignment="Center" FontFamily="Bahnschrift SemiBold" HorizontalAlignment="Left"/>
                         <TextBox x:Name="Constitution_Text" Grid.Row="4" Text="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Bahnschrift SemiBold" Background="#FFE5E5E5" BorderBrush="#FFE5E5E5" TextChanged="ChangeValueAttribute_TextChanged"/>
                         <Button x:Name="Constitution_Button_Down" Grid.Row="4" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0, 20, 10, 0" Width="20" Height="15" Background="#FFE5E5E5" Click="ChangeValueButton_Click"/>
                         <Button x:Name="Constitution_Button_Up" Grid.Row="4" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0, 0, 10, 20" Width="20" Height="15" Background="#FFE5E5E5" Click="ChangeValueButton_Click"/>
 
-                        <TextBlock Grid.Row="5" Text="Intelligence" Margin="10, 3, 0, 0"  VerticalAlignment="Top" FontFamily="Bahnschrift SemiBold" HorizontalAlignment="Left"/>
+                        <TextBlock Grid.Row="5" Text="Intelligence" Margin="10, 3, 0, 0"  VerticalAlignment="Center" FontFamily="Bahnschrift SemiBold" HorizontalAlignment="Left"/>
                         <TextBox x:Name="Intelligence_Text" Grid.Row="5" Text="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Bahnschrift SemiBold" Background="#FFE5E5E5" BorderBrush="#FFE5E5E5" TextChanged="ChangeValueAttribute_TextChanged"/>
                         <Button x:Name="Intelligence_Button_Down" Grid.Row="5" HorizontalAlignment="Right" VerticalAlignment="Center"  Margin="0, 20, 10, 0" Width="20" Height="15" Background="#FFE5E5E5" Click="ChangeValueButton_Click"/>
                         <Button x:Name="Intelligence_Button_Up" Grid.Row="5" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0, 0, 10, 20" Width="20" Height="15" Background="#FFE5E5E5" Click="ChangeValueButton_Click"/>
 
-                        <TextBlock Grid.Row="7" Text="Remaining points" VerticalAlignment="Bottom" FontFamily="Bahnschrift SemiBold" HorizontalAlignment="Center" Visibility="Hidden"/>
+                        <TextBlock Grid.Row="7" Text="Remaining points" VerticalAlignment="Bottom" FontFamily="Bahnschrift SemiBold" HorizontalAlignment="Center"/>
                         <TextBlock Grid.Row="7" x:Name="RemainingPoints" Text="0" Margin="0, 0, 30, 0"  VerticalAlignment="Bottom" FontFamily="Bahnschrift SemiBold" HorizontalAlignment="Right"/>
                     </Grid>
 
@@ -122,7 +122,12 @@
                         <Button x:Name="IncreaseExperience_1000" Grid.Row="4" Grid.Column="2" Content="+1000" Margin="3, 3, 3, 3" Background="#FF68ED4D" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Click="IncreaseExperience_Click"/>
                     </Grid>
 
-                    <Grid Grid.Column="4" Grid.Row="2">
+                    <Grid Grid.Row="1" Grid.Column="2">
+                        <Button x:Name="SaveButton" Content="Save" Click="SaveButton_Click" Margin="86,281,86,10"/>
+                    </Grid>
+                    
+                    
+                    <Grid Grid.Column="4" Grid.Row="2" Margin="10,10,10,10">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="30"/>
                             <RowDefinition Height="5"/>
@@ -175,7 +180,7 @@
                             </ListView.View>
                         </ListView>
 
-                        <Button Grid.Row="4" Width="100" Content="Create" Click="CreateItem_Click"/>
+                        <Button Grid.Row="4" Width="100" Content="Create" Click="CreateItem_Click" Visibility="Hidden"/>
                     </Grid>
 
                     <Grid Grid.Column="1" Grid.Row="0" Margin="10, 10, 10, 10">
@@ -192,8 +197,8 @@
                         <ListView Grid.Row="2" Name="UnitsInventory" Background="#FFE5E5E5" Foreground="Gray" MouseDoubleClick="UnitsInventory_MouseDoubleClick" MouseRightButtonUp="UnitsInventory_MouseRightButtonUp">
                             <ListView.View>
                                 <GridView>
-                                    <GridViewColumn x:Name="UnitsInventoryItemName" Header="Item" DisplayMemberBinding="{Binding Item.ItemName}"/>
-                                    <GridViewColumn x:Name="UnitsInventoryItemProperty" Header="Count" DisplayMemberBinding="{Binding Count}"/>
+                                    <GridViewColumn x:Name="UnitsInventoryItemName" Header="Item" DisplayMemberBinding="{Binding Key.ItemName}"/>
+                                    <GridViewColumn x:Name="UnitsInventoryItemProperty" Header="Count" DisplayMemberBinding="{Binding Value}"/>
                                 </GridView>
                             </ListView.View>
 
@@ -213,6 +218,6 @@
             </TabItem>
         </TabControl>
 
-        <Button x:Name="SaveButton" Grid.Column="1" Grid.Row="2" Content="Save" Click="SaveButton_Click"/>
+        
     </Grid>
 </Window>
