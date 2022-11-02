@@ -35,7 +35,7 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBox x:Name="ItemName" HorizontalAlignment="Left" Margin="0,32,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Height="22"/>
+                    <TextBox x:Name="ItemName" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Height="22"/>
                     <TextBlock HorizontalAlignment="Left" Width="100" Margin="0,0,0,0" TextWrapping="Wrap" Text="Item name" VerticalAlignment="Top" Grid.Column="0"/>
 
                     <TextBox Grid.Row="1" Text="0" x:Name="HealthPoint" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Height="22" PreviewTextInput="ItemCount_PreviewTextInput"/>
@@ -50,7 +50,17 @@
                     <TextBlock Grid.Row="4"  HorizontalAlignment="Left" Width="100" TextWrapping="Wrap" Text="Magical attack" VerticalAlignment="Top"/>
                     <TextBox Grid.Row="5" Text="0"  x:Name="PhysicalProtection" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Height="22" PreviewTextInput="ItemCount_PreviewTextInput"/>
                     <TextBlock Grid.Row="4"  HorizontalAlignment="Left" TextWrapping="Wrap" Text="Physical protection" VerticalAlignment="Top" Margin="0,64,0,0" Grid.RowSpan="2"/>
-                    
+
+                    <TextBox Grid.Row="1" Grid.Column="1" Text="0" x:Name="RequiredStrength" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Height="22" PreviewTextInput="ItemCount_PreviewTextInput"/>
+                    <TextBlock Grid.Row="1" Grid.Column="1"  HorizontalAlignment="Left" Width="100" TextWrapping="Wrap" Text="Required Strength" VerticalAlignment="Top"/>
+                    <TextBox Grid.Row="2" Text="0" Grid.Column="1" x:Name="RequiredDexterity" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Height="22" PreviewTextInput="ItemCount_PreviewTextInput"/>
+                    <TextBlock Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" Width="100" TextWrapping="Wrap" Text="Required Dexterity" VerticalAlignment="Top"/>
+                    <TextBox Grid.Row="3" Text="0" Grid.Column="1" x:Name="RequiredConstitution" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Height="22" PreviewTextInput="ItemCount_PreviewTextInput"/>
+                    <TextBlock Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" Width="155" TextWrapping="Wrap" Text="Required Constitution" VerticalAlignment="Top" Margin="0,64,0,0" Grid.RowSpan="2"/>
+                    <TextBox Grid.Row="4" Text="0" Grid.Column="1" x:Name="RequiredIntelligence" HorizontalAlignment="Left"  TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Height="22" PreviewTextInput="ItemCount_PreviewTextInput"/>
+                    <TextBlock Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" Width="155" TextWrapping="Wrap" Text="Required Intelligence" VerticalAlignment="Top" Margin="0,64,0,0" Grid.RowSpan="2"/>
+                    <TextBox Grid.Row="5" Text="0" Grid.Column="1" x:Name="Type" HorizontalAlignment="Left"  TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Height="22" PreviewTextInput="ItemCount_PreviewTextInput"/>
+                    <TextBlock Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" Width="155" TextWrapping="Wrap" Text="Type" VerticalAlignment="Top" Margin="0,64,0,0" Grid.RowSpan="2"/>
                 </Grid>
                 <Button Content="Save" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Click="Button_Click"/>
             </Grid>

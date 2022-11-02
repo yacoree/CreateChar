@@ -11,8 +11,12 @@ namespace CreateChar.Items
         ObjectId id;
 
         public string ItemName { get; set; }
-        public int ItemWeight { get; set; }
         public UnitProperty ItemPropery { get; set; }
+        public int ItemWeight { get; set; }
+        public int RequiredStrength { get; set; }
+        public int RequiredDexterity { get; set; }
+        public int RequiredConstitution { get; set; }
+        public int RequiredIntelligence { get; set; }
 
         public Item(string itemName) : this(itemName, 0)
         {
@@ -23,6 +27,7 @@ namespace CreateChar.Items
         {
             ItemName = itemName;
             ItemWeight = itemWeight;
+            ItemPropery = new UnitProperty();
         }
 
         public Item(string itemName, int itemWeight, UnitProperty itemPropery) : this(itemName, itemWeight)

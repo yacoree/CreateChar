@@ -147,9 +147,23 @@ namespace CreateChar.Units
                 {
                     if (i.Key.EqualItem(item))
                     {
-                        WornItems.Add(item);
-                        CurrentPropertyUnit += item.ItemPropery;
-                        return true;
+                        if (this.Intelligence >= item.RequiredIntelligence &&
+                            this.Strength >= item.RequiredStrength &&
+                            this.Dexterity >= item.RequiredDexterity &&
+                            this.Constitution >= item.RequiredConstitution)
+                        {
+                            for (var j = 0; j < WornItems.Count; j++)
+                            {
+                                if (item.GetType() == WornItems[j].GetType())
+                                {
+                                    RemoveItem(WornItems[j]);
+                                }
+                            }
+
+                            WornItems.Add(item);
+                            CurrentPropertyUnit += item.ItemPropery;
+                            return true;
+                        }
                     }
                 }
             }
