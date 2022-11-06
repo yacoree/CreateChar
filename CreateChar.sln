@@ -5,7 +5,9 @@ VisualStudioVersion = 17.2.32526.322
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CreateChar", "CreateChar\CreateChar.csproj", "{E89F62C4-03CF-478E-B9AB-FA57EBB4BBF5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CreateCharWpf", "CreateCharWpf\CreateCharWpf.csproj", "{6AA26A38-C928-47D6-94E5-56EF1D5B4E75}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CreateCharWpf", "CreateCharWpf\CreateCharWpf.csproj", "{6AA26A38-C928-47D6-94E5-56EF1D5B4E75}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandGeneration", "CommandGeneration\CommandGeneration.csproj", "{D38A6584-4079-4298-AD9D-248BF858B8E2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{6AA26A38-C928-47D6-94E5-56EF1D5B4E75}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6AA26A38-C928-47D6-94E5-56EF1D5B4E75}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6AA26A38-C928-47D6-94E5-56EF1D5B4E75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D38A6584-4079-4298-AD9D-248BF858B8E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D38A6584-4079-4298-AD9D-248BF858B8E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D38A6584-4079-4298-AD9D-248BF858B8E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D38A6584-4079-4298-AD9D-248BF858B8E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
